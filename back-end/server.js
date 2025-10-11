@@ -13,8 +13,10 @@ res.render('index', {text2312321: "Hello from server.js"});
 const userRouter = require("./routes/user")
 
 
+
 app.use('/user', userRouter)
 app.use('/new', userRouter)
+
 
 
 app.listen(3000)

@@ -3,20 +3,18 @@ const express = require("express")
 const router = express.Router()
 
 
-
-router.get("/", (req, res) => {
- res.send("User List")
-})
-
-router.post("/", (req, res) => {
+router.route("/:id", (req, res) => {
+  res.send(`Get user ID ${req.params.id}`)
+}).post((req, res) => {
   res.send("Create User")
+}).delete((req, res) =>{
+  res.send(`Delete user ${req.params.id}`)
+}).get( (req,res) => {
+  res.send(`USER GET ${req.params.id}`)
 })
 
-router.get('/:id', (req,res) => {
-  req.params.id
-  res.send("USER GET" `${req.params.id}`)
-})
-router.get("/new", (req, res) =>{
-res.send("User New Form")
+
+router.param("id", (req, res, next, id) =>{
+  console.log(id)
 })
 module.exports = router
