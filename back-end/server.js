@@ -1,22 +1,16 @@
 const express = require('express');
+const cors = require('cors');
+const db = require('./config/db');
+
 const app = express();
+app.use(express.json());
+app.use(cors());
 
-app.set('view engine', 'ejs');
-
-app.get("/", (req, res) =>{
-console.log("Hello from server.js")
-res.render('index', {text2312321: "Hello from server.js"});
-
- 
-
-})
-const userRouter = require("./routes/user")
+app.use(express.static('views'));
+const authRoutes = require('./routes/authRoutes');
 
 
 
-app.use('/user', userRouter)
-app.use('/new', userRouter)
+app.use('/api', authRoutes);
 
-
-
-app.listen(3000)
+app.listen(5000, () => console.log('Server running on port 5000'));
