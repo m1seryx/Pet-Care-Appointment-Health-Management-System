@@ -496,14 +496,14 @@ body {
 
 .footer {
   background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-  padding: 2rem 0 1.5rem;
+  padding: 1rem 0 1.5rem;
   position: relative;
   z-index: 10;
   color: white;
 }
 
 .footer-content {
-  max-width: 1400px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 2rem;
   text-align: center;
@@ -529,7 +529,7 @@ body {
 .footer-text {
   color: #9ca3af;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 100;
 }
 
 
