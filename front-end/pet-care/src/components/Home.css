@@ -255,7 +255,7 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: url('your-image.jpg') no-repeat center/cover;
+  
 }
 
 /* Add overlay effect */
