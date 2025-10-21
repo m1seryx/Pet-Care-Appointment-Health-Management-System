@@ -1,151 +1,154 @@
-/* ===== Overall Layout ===== */
+
 .signin-container {
-    position: relative;
-    min-height: 100vh;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "Poppins", sans-serif;
-  }
-  
-  /* Dark overlay for background readability */
-  .overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    z-index: 1;
-  }
-  
-  /* ===== Form Section ===== */
-  .form-section {
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: 2rem;
-  }
-  
-  /* Glassmorphism card */
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8fafc 0%, #eef2f3 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top center,
+    rgba(0, 255, 255, 0.1),
+    rgba(0, 0, 0, 0.6)
+  );
+  z-index: 1;
+}
+
+
+.form-section {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+
+.form-wrapper {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  padding: 3rem 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto 1.8rem auto;
+  text-align: center;
+}
+
+
+.logo span {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1px;
+  font-family: "Montagu Slab", serif;
+}
+
+/* ===== Header ===== */
+h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+/* ===== Form Inputs ===== */
+.form-group {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #e0e0e0;
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper input:focus {
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3);
+}
+
+/* ===== Button ===== */
+.signin-btn {
+  width: 100%;
+  padding: 0.85rem;
+  margin-top: 1rem;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  border: none;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.signin-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+/* ===== Footer Text ===== */
+.form-footer {
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.link {
+  color: #00f2fe;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 480px) {
   .form-wrapper {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
-    padding: 3rem 2.5rem;
-    max-width: 420px;
-    width: 100%;
-    text-align: center;
-    color: #fff;
+    padding: 2rem 1.5rem;
+    max-width: 90%;
   }
-  
-  /* ===== Logo Section ===== */
-  .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-    gap: 10px;
-  }
-  
-  .logo-icon svg {
-    width: 40px;
-    height: 40px;
-    fill: #fff;
-  }
-  
-  .logo span {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 1px;
-  }
-  
-  /* ===== Header ===== */
+
   h2 {
-    font-size: 1.8rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
+    font-size: 1.5rem;
   }
-  
-  /* ===== Form Inputs ===== */
-  .form-group {
-    text-align: left;
-    margin-bottom: 1.5rem;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #f0f0f0;
-  }
-  
-  .input-wrapper input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 10px;
-    border: none;
-    background: rgba(255, 255, 255, 0.9);
-    color: #333;
-    font-size: 1rem;
-    outline: none;
-    transition: all 0.3s ease;
-  }
-  
-  .input-wrapper input:focus {
-    background: #fff;
-    box-shadow: 0 0 0 3px rgba(0, 150, 255, 0.3);
-  }
-  
-  /* ===== Button ===== */
-  .signin-btn {
-    width: 100%;
-    padding: 0.85rem;
-    margin-top: 1rem;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
-    border: none;
-    color: #fff;
-    font-size: 1.1rem;
-    font-weight: 600;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.3s ease;
-  }
-  
-  .signin-btn:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(135deg, #43e97b, #38f9d7);
-  }
-  
-  /* ===== Footer Text ===== */
-  .form-footer {
-    margin-top: 1.5rem;
-    font-size: 0.95rem;
-  }
-  
-  .link {
-    color: #00f2fe;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  
-  .link:hover {
-    text-decoration: underline;
-  }
-  
-  /* ===== Responsive Design ===== */
-  @media (max-width: 480px) {
-    .form-wrapper {
-      padding: 2rem 1.5rem;
-      max-width: 90%;
-    }
-  
-    h2 {
-      font-size: 1.5rem;
-    }
-  }
-  
+}

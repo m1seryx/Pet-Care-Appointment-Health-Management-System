@@ -1,20 +1,24 @@
-* {
+*
+ {
+
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-  
+
+ @import url('https://fonts.googleapis.com/css2?family=Aoboshi+One&family=Antic+Slab&family=Montagu+Slab:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    background-color: #ffffff;
-    overflow-x: hidden;
-    line-height: 1.6;
-  }
   
+  font-family: 'Poppins', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #ebebeb;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
   .app {
     min-height: 100vh;
     position: relative;
@@ -96,9 +100,9 @@
   }
   
   .header-content {
-    max-width: 1400px;
+    max-width: 1500px;
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 0.5rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -133,13 +137,12 @@
   }
   
   .logo-text {
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: #1f2937;
-    font-family: Montagu Slab;
-    letter-spacing: -0.025em;
-  }
-  
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1f2937;
+  font-family: 'Montagu Slab', serif;
+  letter-spacing: -0.025em;
+}
   .desktop-nav {
     display: flex;
     gap: 4rem;
@@ -247,27 +250,43 @@
   
   
   .hero {
-    min-height: 90vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    background: no-repeat center/cover;
-  
-  }
-  
-  .hero-content {
-    max-width: 1699px;
-    margin: 0 auto;
-    padding: 2rem;
-    position: relative;
-    z-index: 10;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
+  min-height: 90vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: url('your-image.jpg') no-repeat center/cover;
+}
+
+/* Add overlay effect */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+      rgba(17, 24, 39, 0.7), 
+      rgba(31, 41, 55, 0.7)
+    );
+  backdrop-filter: blur(3px);
+  z-index: 1;
+}
+
+/* Make sure hero text stays on top of the filter */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1699px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
   
   .hero-text {
     max-width: 100%;
@@ -283,7 +302,7 @@
     transform: translateY(30px);
     transition: all 0.8s ease;
     letter-spacing: -0.02em;
-    font-family: Aoboshi One;
+    font-family: 'Aoboshi One', serif;
   }
   
   .hero-title.animate-in {
@@ -495,43 +514,70 @@
   
   
   .footer {
-    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
-    padding: 2rem 0 1.5rem;
-    position: relative;
-    z-index: 10;
-    color: white;
-  }
-  
-  .footer-content {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
-    text-align: center;
-  }
-  
-  .footer-logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-  }
-  
-  .footer-logo .logo {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-  }
-  
-  .footer-logo .logo-text {
-    color: white;
-    font-size: 1.5rem;
-  }
-  
-  .footer-text {
-    color: #9ca3af;
-    font-size: 1rem;
-    font-weight: 500;
-  }
-  
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  padding: 1.2rem 0;
+  color: #e5e7eb;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5rem;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 0.2rem;
+  transition: transform 0.3s ease;
+}
+
+.footer-logo:hover {
+  transform: scale(1.05);
+}
+
+.footer-logo .logo {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  width: 35px;
+  height: 35px;
+  box-shadow: 0 3px 10px rgba(59, 130, 246, 0.3);
+}
+
+.footer-logo .logo-text {
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.footer-text {
+  color: #9ca3af;
+  font-size: 0.85rem;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.footer-text a {
+  color: #60a5fa;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-text a:hover {
+  color: #a78bfa;
+}
+
   
   @media (max-width: 1024px) {
     .hero-content {
