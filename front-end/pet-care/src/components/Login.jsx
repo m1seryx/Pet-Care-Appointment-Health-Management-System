@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from '../api/authApi';
 import dogBg from "./dog.jpg"; 
 import "./Login.css";
 
@@ -18,18 +19,27 @@ export default function Login() {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {  // Make it async
+  e.preventDefault();
 
-    if (!formData.username || !formData.password) {
-      alert("Please fill out all fields!");
-      return;
+  if (!formData.username || !formData.password) {
+    alert("Please fill out all fields!");
+    return;
+  }
+
+  try {
+    const result = await loginUser(formData);  // Call the actual API
+    
+    if (result.message === "Login successful") {
+      console.log("Login successful:", formData);
+      navigate("/");  // Only navigate on successful login
+    } else {
+      alert(result.message);  // Show error message
     }
-
-    console.log("Login successful:", formData);
-
-    navigate("/");
-  };
+  } catch (error) {
+    alert("Login failed. Please try again.");
+  }
+};
 
   return (
     <div className="signin-container" style={{ backgroundImage: `url(${dogBg})` }}>
