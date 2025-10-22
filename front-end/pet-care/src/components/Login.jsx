@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-import Signin from "./Signin";
 import LightRays from "./LightRays";
 
 export default function Login() {
@@ -37,7 +36,7 @@ export default function Login() {
       <div style={{ width: "100%", height: "100%", position: "absolute", zIndex: 1 }}>
         <LightRays
           raysOrigin="top-center"
-          raysColor="#00ffff"
+          raysColor="#00ADB5"
           raysSpeed={1.5}
           lightSpread={0.8}
           rayLength={1.2}
@@ -85,9 +84,8 @@ export default function Login() {
               </div>
             </div>
 
-            <button type="submit" className="signin-btn">
-              Log In
-            </button>
+            <button className="login-btn" onClick={() => navigate('/login')}>
+    Login </button>
           </form>
 
           <div className="form-footer">

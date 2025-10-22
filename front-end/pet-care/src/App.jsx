@@ -3,10 +3,9 @@ import {Routes, Route } from 'react-router-dom';
 import './App.css';
 import Home from './components/Home';
 import Login from './components/Login';
+import Signin from './components/Signin';
 
-function Signin() {
-  return <h2>Signin Page (Placeholder)</h2>;
-}
+
 
 function App() {
   return (
@@ -20,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
