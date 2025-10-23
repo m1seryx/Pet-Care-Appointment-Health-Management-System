@@ -7,10 +7,12 @@ export default function Signin() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
     username: "",
+    email: "",
     phoneNumber: "",
     password: "",
-    confirmPassword: "",
   });
 
   const handleChange = (e) => {
@@ -23,13 +25,10 @@ export default function Signin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.username || !formData.phoneNumber || !formData.password) {
-      alert("Please fill out all fields!");
-      return;
-    }
+    const { firstName, lastName, username, email, phoneNumber, password } = formData;
 
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
+    if (!firstName || !lastName || !username || !email || !phoneNumber || !password) {
+      alert("Please fill out all fields!");
       return;
     }
 
@@ -40,7 +39,7 @@ export default function Signin() {
 
   return (
     <div className="signin-container">
-      {}
+      {/* Light Rays Background */}
       <div
         style={{
           width: "100%",
@@ -50,17 +49,16 @@ export default function Signin() {
         }}
       >
         <LightRays
-  raysOrigin="top-center"
-  raysColor="#00ADB5"
-  raysSpeed={1.5}
-  lightSpread={0.8}
-  rayLength={1.2}
-  followMouse={true}
-  mouseInfluence={0.1}
-  noiseAmount={0.1}
-  distortion={0.05}
-/>
-
+          raysOrigin="top-center"
+          raysColor="#00ADB5"
+          raysSpeed={1.5}
+          lightSpread={0.8}
+          rayLength={1.2}
+          followMouse={true}
+          mouseInfluence={0.1}
+          noiseAmount={0.1}
+          distortion={0.05}
+        />
       </div>
 
       {/* Form Section */}
@@ -73,6 +71,37 @@ export default function Signin() {
           <h2>Create an Account</h2>
 
           <form onSubmit={handleSubmit}>
+            {/* First Name */}
+            <div className="form-group">
+              <label htmlFor="firstName">First Name</label>
+              <div className="input-wrapper">
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="Enter your first name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            {/* Last Name */}
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <div className="input-wrapper">
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Enter your last name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            {/* Username */}
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <div className="input-wrapper">
@@ -87,6 +116,22 @@ export default function Signin() {
               </div>
             </div>
 
+            {/* Email */}
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <div className="input-wrapper">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+
+            {/* Phone Number */}
             <div className="form-group">
               <label htmlFor="phoneNumber">Phone Number</label>
               <div className="input-wrapper">
@@ -101,6 +146,7 @@ export default function Signin() {
               </div>
             </div>
 
+            {/* Password */}
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <div className="input-wrapper">
@@ -115,21 +161,8 @@ export default function Signin() {
               </div>
             </div>
 
-            <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm Password</label>
-              <div className="input-wrapper">
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  placeholder="Confirm your password"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
-
-             <button className="login-btn" onClick={() => navigate("/signin")}>
+            {/* Submit Button */}
+            <button type="submit" className="login-btn">
               Sign Up
             </button>
           </form>
@@ -138,7 +171,7 @@ export default function Signin() {
             <p>
               Already have an account?{" "}
               <a href="/Login" className="link">
-                login
+                Login
               </a>
             </p>
           </div>
