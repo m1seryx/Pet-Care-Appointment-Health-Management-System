@@ -2,16 +2,17 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Signin.css";
 import LightRays from "./LightRays";
+import { registerUser } from "../api/authApi";
 
 export default function Signin() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     username: "",
     email: "",
-    phoneNumber: "",
+    phone_number: "",
     password: "",
   });
 
@@ -22,19 +23,28 @@ export default function Signin() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { firstName, lastName, username, email, phoneNumber, password } = formData;
+    const { first_name, last_name, username, email, phone_number, password } = formData;
 
-    if (!firstName || !lastName || !username || !email || !phoneNumber || !password) {
+    if (!first_name || !last_name || !username || !email || !phone_number || !password) {
       alert("Please fill out all fields!");
       return;
     }
 
-    console.log("Form submitted:", formData);
-    alert("Sign up successful!");
-    navigate("/login");
+     try {
+       const result = await registerUser(formData); 
+       
+       if (result.message === "Registered successfully") {
+         console.log("Registered successfully:", formData);
+         navigate("/"); 
+       } else {
+         alert(result.message); 
+       }
+     } catch (error) {
+       alert("Registration failed. Please try again.");
+     }
   };
 
   return (
@@ -73,14 +83,14 @@ export default function Signin() {
           <form onSubmit={handleSubmit}>
             {/* First Name */}
             <div className="form-group">
-              <label htmlFor="firstName">First Name</label>
+              <label htmlFor="first_name">First Name</label>
               <div className="input-wrapper">
                 <input
                   type="text"
-                  id="firstName"
-                  name="firstName"
+                  id="first_name"
+                  name="first_name"
                   placeholder="Enter your first name"
-                  value={formData.firstName}
+                  value={formData.first_name}
                   onChange={handleChange}
                 />
               </div>
@@ -88,14 +98,14 @@ export default function Signin() {
 
             {/* Last Name */}
             <div className="form-group">
-              <label htmlFor="lastName">Last Name</label>
+              <label htmlFor="last_name">Last Name</label>
               <div className="input-wrapper">
                 <input
                   type="text"
-                  id="lastName"
-                  name="lastName"
+                  id="last_name"
+                  name="last_name"
                   placeholder="Enter your last name"
-                  value={formData.lastName}
+                  value={formData.last_name}
                   onChange={handleChange}
                 />
               </div>
@@ -133,14 +143,14 @@ export default function Signin() {
 
             {/* Phone Number */}
             <div className="form-group">
-              <label htmlFor="phoneNumber">Phone Number</label>
+              <label htmlFor="phone_number">Phone Number</label>
               <div className="input-wrapper">
                 <input
                   type="text"
-                  id="phoneNumber"
-                  name="phoneNumber"
+                  id="phone_number"
+                  name="phone_number"
                   placeholder="Enter your phone number"
-                  value={formData.phoneNumber}
+                  value={formData.phone_number}
                   onChange={handleChange}
                 />
               </div>

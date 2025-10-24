@@ -12,6 +12,11 @@ export async function registerUser(userData) {
     });
 
     const data = await response.json();
+    
+    if (!response.ok) {
+      return data;
+    }
+    
     return data; 
   } catch (error) {
     console.error('Register fetch error:', error);

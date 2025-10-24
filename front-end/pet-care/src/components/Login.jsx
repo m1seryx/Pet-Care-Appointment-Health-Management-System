@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import LightRays from "./LightRays";
+import { loginUser } from "../api/authApi";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -17,16 +18,27 @@ export default function Login() {
       [e.target.name]: e.target.value,
     });
   };
+const handleSubmit = async (e) => {  
+  e.preventDefault();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!formData.username || !formData.password) {
-      alert("Please fill out all fields!");
-      return;
+  if (!formData.username || !formData.password) {
+    alert("Please fill out all fields!");
+    return;
+  }
+
+  try {
+    const result = await loginUser(formData); 
+    
+    if (result.message === "Login successful") {
+      console.log("Login successful:", formData);
+      navigate("/"); 
+    } else {
+      alert(result.message); 
     }
-    console.log("Login successful:", formData);
-    navigate("/");
-  };
+  } catch (error) {
+    alert("Login failed. Please try again.");
+  }
+};
 
   return (
     <div className="signin-container">

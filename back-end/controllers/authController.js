@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs');
 const User = require('../Queries/UserQueries');
 
 exports.register = (req,res) => {
-  const {first_name, last_name, username, email, password} = req.body;
+  const {first_name, last_name, username, email, password, phone_number} = req.body;
 
 
 User.findByUsername(username, (err, results) => {
@@ -11,7 +11,7 @@ User.findByUsername(username, (err, results) => {
 
   const hashedPassword = bcrypt.hashSync(password, 10);
 
-User.create(first_name, last_name, username, email, hashedPassword,(err) =>{
+User.create(first_name, last_name, username, email, hashedPassword, phone_number,(err) =>{
   if (err) return res.status(500).json({message: "Error creating user", error: err});
   res.json({message: "Registered successfully"});
 })
