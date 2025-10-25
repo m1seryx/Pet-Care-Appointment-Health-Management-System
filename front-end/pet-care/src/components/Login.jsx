@@ -31,7 +31,7 @@ const handleSubmit = async (e) => {
     
     if (result.message === "Login successful") {
       console.log("Login successful:", formData);
-      navigate("/"); 
+      navigate("/UserDashboard"); 
     } else {
       alert(result.message); 
     }

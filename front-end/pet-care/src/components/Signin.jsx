@@ -71,7 +71,6 @@ export default function Signin() {
         />
       </div>
 
-      {/* Form Section */}
       <div className="form-section" style={{ position: "relative", zIndex: 2 }}>
         <div className="form-wrapper">
           <div className="logo">
@@ -81,7 +80,6 @@ export default function Signin() {
           <h2>Create an Account</h2>
 
           <form onSubmit={handleSubmit}>
-            {/* First Name */}
             <div className="form-group">
               <label htmlFor="first_name">First Name</label>
               <div className="input-wrapper">
@@ -96,7 +94,6 @@ export default function Signin() {
               </div>
             </div>
 
-            {/* Last Name */}
             <div className="form-group">
               <label htmlFor="last_name">Last Name</label>
               <div className="input-wrapper">
@@ -111,7 +108,6 @@ export default function Signin() {
               </div>
             </div>
 
-            {/* Username */}
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <div className="input-wrapper">
@@ -126,7 +122,6 @@ export default function Signin() {
               </div>
             </div>
 
-            {/* Email */}
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <div className="input-wrapper">
@@ -141,7 +136,6 @@ export default function Signin() {
               </div>
             </div>
 
-            {/* Phone Number */}
             <div className="form-group">
               <label htmlFor="phone_number">Phone Number</label>
               <div className="input-wrapper">
@@ -156,7 +150,6 @@ export default function Signin() {
               </div>
             </div>
 
-            {/* Password */}
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <div className="input-wrapper">
@@ -171,7 +164,6 @@ export default function Signin() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <button type="submit" className="login-btn">
               Sign Up
             </button>
