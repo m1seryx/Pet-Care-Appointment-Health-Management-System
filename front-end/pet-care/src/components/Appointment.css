@@ -3,7 +3,7 @@
 
 .appointment-page {
   font-family: 'Poppins', sans-serif;
-  background: #ebebeb;
+  background: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -22,6 +22,8 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  margin-top: 120px;
+  
 }
 
 .appointment-box {
@@ -37,7 +39,7 @@
 
 
 .right-panel {
-  background: #f9fafc;
+  background: #e1eafc;
   flex: 1;
   text-align: center;
   padding: 2rem;
@@ -53,13 +55,15 @@
   color: #1e3a8a;
   font-weight: 700;
   margin-top: 1rem;
-  text-transform: lowercase;
+  
 }
 
 .right-panel p {
   font-size: 0.95rem;
   color: #555;
   margin-top: 0.5rem;
+  margin-bottom: 40px;
+
 }
 
 .contact-info {
@@ -106,7 +110,6 @@
 .form-panel h3 {
   color: #1e3a8a;
   font-weight: 600;
-  text-transform: lowercase;
   margin-bottom: 0.8rem;
 }
 
@@ -115,9 +118,9 @@
   gap: 1rem;
 }
 
-.appointment-page input,
-.appointment-page textarea,
-.appointment-page select {
+input,
+textarea,
+select {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid #ddd;
