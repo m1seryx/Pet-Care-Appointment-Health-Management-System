@@ -151,9 +151,10 @@ function Home() {
             <br />
             appointment status.
           </p>
-          <button className="book-button">
-            Book Appointment
-          </button>
+          <button className="book-button" onClick={() => navigate('/appointment')}>
+  Book Appointment
+</button>
+
         </div>
 
         <div className="image-section">
