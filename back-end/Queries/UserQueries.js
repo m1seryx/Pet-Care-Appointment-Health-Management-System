@@ -1,53 +1,14 @@
-const bcrypt = require('bcryptjs');
-const User = require('../Queries/UserQueries');
-const jwt = require('jsonwebtoken');
+const db = require('../config/db');
 
-exports.register = (req,res) => {
-  const {first_name, last_name, username, email, password, phone_number} = req.body;
-
-
-User.findByUsername(username, (err, results) => {
-  if (err) return res.status(500).json({message: "Database error", error: err});
-  if (results.length > 0) return res.status(400).json({message: "Username must be unique"});
-
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
-User.create(first_name, last_name, username, email, hashedPassword, phone_number,(err) =>{
-  if (err) return res.status(500).json({message: "Error creating user", error: err});
-  res.json({message: "Registered successfully"});
-})
-});
+const User = {
+  create: (first_name, last_name, username, email, password, phone_number, callback) => {
+    const sql = "INSERT INTO user (first_name, last_name, username, email, password, phone_number) VALUES (?, ?, ?, ?, ?, ?)";
+    db.query(sql, [first_name, last_name, username, email, password, phone_number], callback);
+  },
+  
+  findByUsername: (username, callback) =>{
+  const sql = "SELECT * FROM user WHERE username = ?";
+  db.query(sql, [username], callback);
+}
 };
-
-
-exports.login = (req, res) =>{
-  const {username, password} = req.body;
-
-
-  User.findByUsername(username, (err, results) =>{
-    if (err) return res.status(500).json({message: "Database error", error: err});
-    if (results.length === 0) return res.status(404).json({message: "User not found"});
-
-    const user = results[0];
-    const isMatch = bcrypt.compareSync(password, user.password);
-    if (!isMatch) return res.status(401).json({message: "Invalid username or password"});
-
-    const token = jwt.sign (
-      {id: user.user_id, username: user.username},
-      process.env.JWT_SECRET || "secretKey",
-
-    );
-
-    
-    return res.json({
-      message: "Login successful",
-      token,
-      user: {
-        id: user.user_id,
-        username: user.username,
-        email: user.email
-      }
-    });
-  });
- 
-};
+module.exports = User;
