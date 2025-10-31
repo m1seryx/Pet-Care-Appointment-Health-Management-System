@@ -66,7 +66,7 @@ function Home() {
           </nav>
 
 
-          <button className="login-btn" onClick={() => navigate('/login')}>Login</button>
+          <button className="login-button" onClick={() => navigate('/login')}>Login</button>
 
 
           <button className="mobile-menu-btn" onClick={toggleMenu}>
@@ -151,9 +151,10 @@ function Home() {
             <br />
             appointment status.
           </p>
-          <button className="book-button" onClick={() => navigate('/appointment')}>
+         <button className="book-button" onClick={() => navigate('/appointment')}>
   Book Appointment
 </button>
+
 
         </div>
 

@@ -178,25 +178,27 @@
     width: 100%;
   }
   
-  .login-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-    color: white;
-    border: none;
-    padding: 0.75rem 2rem;
-    border-radius: 50px;
-    font-weight: 700;
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-  }
+  .login-button {
+  background: linear-gradient(135deg, #00ADB5 0%, #08c9d1 100%);
+  color: #fff;
+  border: none;
+  padding: 0.85rem 2.2rem;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 173, 181, 0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  background: linear-gradient(135deg, #08e3e9 0%, #00ADB5 100%);
+  box-shadow: 0 6px 25px rgba(0, 255, 255, 0.45);
+}
+
   
   .mobile-menu-btn {
     display: none;
@@ -237,7 +239,7 @@
   }
   
   .mobile-login-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+   background: linear-gradient(135deg, #00ADB5 0%, #08c9d1 100%);
     color: white;
     border: none;
     padding: 1rem 2rem;
@@ -353,7 +355,7 @@
   }
   
   .cta-btn {
-    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #00ADB5 0%, #08c9d1 100%);
     color: white;
     border: none;
     padding: 1.25rem 3rem;

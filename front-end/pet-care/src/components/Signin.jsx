@@ -25,7 +25,6 @@ export default function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const { first_name, last_name, username, email, phone_number, password } = formData;
 
     if (!first_name || !last_name || !username || !email || !phone_number || !password) {
@@ -33,31 +32,22 @@ export default function Signin() {
       return;
     }
 
-     try {
-       const result = await registerUser(formData); 
-       
-       if (result.message === "Registered successfully") {
-         console.log("Registered successfully:", formData);
-         navigate("/"); 
-       } else {
-         alert(result.message); 
-       }
-     } catch (error) {
-       alert("Registration failed. Please try again.");
-     }
+    try {
+      const result = await registerUser(formData);
+      if (result.message === "Registered successfully") {
+        console.log("Registered successfully:", formData);
+        navigate("/");
+      } else {
+        alert(result.message);
+      }
+    } catch (error) {
+      alert("Registration failed. Please try again.");
+    }
   };
 
   return (
-    <div className="signin-container">
-      {/* Light Rays Background */}
-      <div
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          zIndex: 1,
-        }}
-      >
+    <div className="auth-container">
+      <div className="background-layer">
         <LightRays
           raysOrigin="top-center"
           raysColor="#00ADB5"
@@ -71,20 +61,17 @@ export default function Signin() {
         />
       </div>
 
-      {/* Form Section */}
-      <div className="form-section" style={{ position: "relative", zIndex: 2 }}>
-        <div className="form-wrapper">
-          <div className="logo">
-            <span>PetCare</span>
-          </div>
+      <div className="overlay"></div>
 
+      <div className="form-section">
+        <div className="form-wrapper">
+          <div className="logo"><span>PetCare</span></div>
           <h2>Create an Account</h2>
 
           <form onSubmit={handleSubmit}>
-            {/* First Name */}
-            <div className="form-group">
-              <label htmlFor="first_name">First Name</label>
-              <div className="input-wrapper">
+            <div className="two-columns">
+              <div className="form-group">
+                <label htmlFor="first_name">First Name</label>
                 <input
                   type="text"
                   id="first_name"
@@ -94,12 +81,9 @@ export default function Signin() {
                   onChange={handleChange}
                 />
               </div>
-            </div>
 
-            {/* Last Name */}
-            <div className="form-group">
-              <label htmlFor="last_name">Last Name</label>
-              <div className="input-wrapper">
+              <div className="form-group">
+                <label htmlFor="last_name">Last Name</label>
                 <input
                   type="text"
                   id="last_name"
@@ -111,25 +95,21 @@ export default function Signin() {
               </div>
             </div>
 
-            {/* Username */}
             <div className="form-group">
               <label htmlFor="username">Username</label>
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  placeholder="Enter your username"
-                  value={formData.username}
-                  onChange={handleChange}
-                />
-              </div>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter your username"
+                value={formData.username}
+                onChange={handleChange}
+              />
             </div>
 
-            {/* Email */}
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <div className="input-wrapper">
+            <div className="two-columns">
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -139,12 +119,9 @@ export default function Signin() {
                   onChange={handleChange}
                 />
               </div>
-            </div>
 
-            {/* Phone Number */}
-            <div className="form-group">
-              <label htmlFor="phone_number">Phone Number</label>
-              <div className="input-wrapper">
+              <div className="form-group">
+                <label htmlFor="phone_number">Phone Number</label>
                 <input
                   type="text"
                   id="phone_number"
@@ -156,33 +133,25 @@ export default function Signin() {
               </div>
             </div>
 
-            {/* Password */}
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <div className="input-wrapper">
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="Enter your password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
-              </div>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+              />
             </div>
 
-            {/* Submit Button */}
-            <button type="submit" className="login-btn">
-              Sign Up
-            </button>
+            <button type="submit" className="login-btn">Sign Up</button>
           </form>
 
           <div className="form-footer">
             <p>
               Already have an account?{" "}
-              <a href="/Login" className="link">
-                Login
-              </a>
+              <a href="/Login" className="link">Login</a>
             </p>
           </div>
         </div>

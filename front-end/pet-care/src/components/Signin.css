@@ -104,19 +104,20 @@ label {
   box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3);
 }
 
-/* ===== Button ===== */
+
 .signin-btn {
-  width: 100%;
-  padding: 0.85rem;
-  margin-top: 1rem;
-  background: linear-gradient(135deg, #00f2fe, #4facfe);
-  border: none;
+background: linear-gradient(135deg, #00ADB5 0%, #08c9d1 100%);
   color: #fff;
-  font-size: 1.1rem;
+  border: none;
+  padding: 0.5rem 1.4rem; 
+  border-radius: 40px;
   font-weight: 600;
-  border-radius: 12px;
+  font-size: 0.85rem; 
   cursor: pointer;
-  transition: transform 0.2s ease, background 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 10px rgba(0, 173, 181, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
 }
 
 .signin-btn:hover {
@@ -124,7 +125,7 @@ label {
   background: linear-gradient(135deg, #43e97b, #38f9d7);
 }
 
-/* ===== Footer Text ===== */
+
 .form-footer {
   margin-top: 1.5rem;
   font-size: 0.95rem;
@@ -140,7 +141,7 @@ label {
   text-decoration: underline;
 }
 
-/* ===== Responsive Design ===== */
+
 @media (max-width: 480px) {
   .form-wrapper {
     padding: 2rem 1.5rem;
@@ -151,67 +152,4 @@ label {
     font-size: 1.5rem;
   }
 }
-/* === Dark Modern Mode === */
-.dark-mode {
-  background: radial-gradient(circle at top, #0a0a0f 0%, #000 100%);
-  color: #e0f7fa;
-  position: relative;
-  overflow: hidden;
-}
 
-.dark-mode .form-section {
-  background: rgba(20, 25, 35, 0.7);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
-}
-
-.dark-mode .form-wrapper h2 {
-  color: #00ffff;
-  text-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
-}
-
-.dark-mode label {
-  color: #a6e4ff;
-}
-
-.dark-mode input {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(0, 255, 255, 0.3);
-  color: #e0f7fa;
-}
-
-.dark-mode input::placeholder {
-  color: rgba(200, 255, 255, 0.5);
-}
-
-.dark-mode .signin-btn {
-  background: linear-gradient(90deg, #00ffff, #0077ff);
-  color: #000;
-  font-weight: 600;
-  border: none;
-  transition: all 0.3s ease;
-}
-
-.dark-mode .signin-btn:hover {
-  box-shadow: 0 0 12px #00ffff;
-  transform: scale(1.03);
-}
-
-.dark-mode .form-footer {
-  color: #b8ffff;
-}
-
-.dark-mode .link-btn {
-  background: none;
-  border: none;
-  color: #00ffff;
-  cursor: pointer;
-  font-weight: 600;
-  text-decoration: underline;
-  transition: color 0.3s ease;
-}
-
-.dark-mode .link-btn:hover {
-  color: #80ffff;
-}
