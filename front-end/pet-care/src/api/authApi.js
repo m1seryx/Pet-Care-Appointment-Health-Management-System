@@ -36,10 +36,16 @@ export async function loginUser(credentials) {
 
     const data = await response.json();
     
- 
     if (!response.ok) {
-     
       return data; 
+    }
+    
+    // ✅ Store token and user data here
+    if (data.message === "Login successful" || data.message === "Admin login successful") {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role);
+      const userData = data.user || data.admin;
+      localStorage.setItem('user', JSON.stringify(userData));
     }
     
     return data; 
@@ -47,4 +53,24 @@ export async function loginUser(credentials) {
     console.error('Login fetch error:', error);
     return { message: 'Server error during login' };
   }
+}
+
+// Helper functions
+export function getToken() {
+  return localStorage.getItem('token');
+}
+
+export function getUserRole() {
+  return localStorage.getItem('role');
+}
+
+export function getUser() {
+  const user = localStorage.getItem('user');
+  return user ? JSON.parse(user) : null;
+}
+
+export function logoutUser() {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  localStorage.removeItem('role');
 }

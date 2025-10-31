@@ -11,27 +11,31 @@ export default function Login() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!formData.username || !formData.password) {
+    alert("Please fill out all fields!");
+    return;
+  }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.username || !formData.password) {
-      alert("Please fill out all fields!");
-      return;
-    }
-
-    try {
-      const result = await loginUser(formData);
-      if (result.message === "Login successful") {
-        console.log("Login successful:", formData);
-        navigate("/UserDashboard");
+  try {
+    const result = await loginUser(formData);
+    
+    if (result.message === "Login successful" || result.message === "Admin login successful") {
+    
+      if (result.role === 'admin') {
+        navigate("/Admin");
       } else {
-        alert(result.message);
+        navigate("/UserDashboard");
       }
-    } catch (error) {
-      alert("Login failed. Please try again.");
-      console.error(error);
+    } else {
+      alert(result.message);
     }
-  };
+  } catch (error) {
+    alert("Login failed. Please try again.");
+    console.error(error);
+  }
+};
 
   return (
     <div className="auth-container">
