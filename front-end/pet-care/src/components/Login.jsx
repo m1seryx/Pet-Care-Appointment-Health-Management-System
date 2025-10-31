@@ -6,22 +6,14 @@ import { loginUser } from "../api/authApi";
 
 export default function Login() {
   const navigate = useNavigate();
-
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ username: "", password: "" });
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!formData.username || !formData.password) {
       alert("Please fill out all fields!");
       return;
@@ -29,22 +21,30 @@ export default function Login() {
 
     try {
       const result = await loginUser(formData);
-
       if (result.message === "Login successful") {
         console.log("Login successful:", formData);
-        navigate("/");
+        navigate("/UserDashboard");
       } else {
         alert(result.message);
       }
     } catch (error) {
       alert("Login failed. Please try again.");
+      console.error(error);
     }
   };
 
   return (
     <div className="auth-container">
-      {/* Light Rays Background */}
-      <div className="background-layer">
+      <div className="overlay"></div>
+
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          position: "absolute",
+          zIndex: 1,
+        }}
+      >
         <LightRays
           raysOrigin="top-center"
           raysColor="#00ADB5"
@@ -58,21 +58,16 @@ export default function Login() {
         />
       </div>
 
-      {/* Semi-transparent Overlay */}
-      <div className="overlay"></div>
-
-      {/* Form Section */}
-      <div className="form-section">
+      <div className="form-section" style={{ position: "relative", zIndex: 2 }}>
         <div className="form-wrapper">
           <div className="logo"><span>PetCare</span></div>
           <h2>Welcome Back!</h2>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="username">Username</label>
+              <label>Username</label>
               <input
                 type="text"
-                id="username"
                 name="username"
                 placeholder="Enter your username"
                 value={formData.username}
@@ -81,10 +76,9 @@ export default function Login() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label>Password</label>
               <input
                 type="password"
-                id="password"
                 name="password"
                 placeholder="Enter your password"
                 value={formData.password}
@@ -97,7 +91,7 @@ export default function Login() {
 
           <div className="form-footer">
             <p>
-              Don't have an account?{" "}
+              Don’t have an account?{" "}
               <a href="/Signin" className="link">Sign up</a>
             </p>
           </div>

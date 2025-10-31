@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Aoboshi+One&family=Antic+Slab&family=Montagu+Slab:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
-.signin-container {
+
+.auth-container {
   position: relative;
   min-height: 100vh;
   background: linear-gradient(180deg, #8a9eb8 0%, #6f7f93 50%, #4f5e73 100%);
@@ -11,13 +12,13 @@
   align-items: center;
   font-family: "Poppins", sans-serif;
   color: #fff;
+  overflow: hidden;
 }
 
 .overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    circle at top center,
+  background: radial-gradient(circle at top center,
     rgba(0, 255, 255, 0.1),
     rgba(0, 0, 0, 0.6)
   );
@@ -34,9 +35,8 @@
   padding: 2rem;
 }
 
-
 .form-wrapper {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   border-radius: 20px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
@@ -45,9 +45,8 @@
   width: 100%;
   text-align: center;
   color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
-
 
 .logo {
   display: flex;
@@ -55,9 +54,7 @@
   justify-content: center;
   gap: 12px;
   margin: 0 auto 1.8rem auto;
-  text-align: center;
 }
-
 
 .logo span {
   font-size: 1.8rem;
@@ -67,14 +64,14 @@
   font-family: "Montagu Slab", serif;
 }
 
-/* ===== Header ===== */
+
 h2 {
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 2rem;
 }
 
-/* ===== Form Inputs ===== */
+
 .form-group {
   text-align: left;
   margin-bottom: 1.5rem;
@@ -105,26 +102,24 @@ label {
 }
 
 
-.signin-btn {
-background: linear-gradient(135deg, #00ADB5 0%, #08c9d1 100%);
-  color: #fff;
+.signin-btn, .login-btn {
+  width: 100%;
+  padding: 0.85rem;
+  margin-top: 1rem;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
   border: none;
-  padding: 0.5rem 1.4rem; 
-  border-radius: 40px;
+  color: #fff;
+  font-size: 1.1rem;
   font-weight: 600;
-  font-size: 0.85rem; 
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 3px 10px rgba(0, 173, 181, 0.25);
-  text-transform: uppercase;
-  letter-spacing: 0.3px;
+  transition: transform 0.2s ease, background 0.3s ease;
 }
 
-.signin-btn:hover {
+.signin-btn:hover, .login-btn:hover {
   transform: translateY(-2px);
   background: linear-gradient(135deg, #43e97b, #38f9d7);
 }
-
 
 .form-footer {
   margin-top: 1.5rem;
@@ -141,6 +136,11 @@ background: linear-gradient(135deg, #00ADB5 0%, #08c9d1 100%);
   text-decoration: underline;
 }
 
+.two-columns {
+  display: flex;
+  gap: 10px;
+}
+
 
 @media (max-width: 480px) {
   .form-wrapper {
@@ -153,3 +153,53 @@ background: linear-gradient(135deg, #00ADB5 0%, #08c9d1 100%);
   }
 }
 
+.dark-mode {
+  background: radial-gradient(circle at top, #0a0a0f 0%, #000 100%);
+  color: #e0f7fa;
+}
+
+.dark-mode .form-wrapper {
+  background: rgba(20, 25, 35, 0.7);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+}
+
+.dark-mode h2 {
+  color: #00ffff;
+  text-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
+}
+
+.dark-mode label {
+  color: #a6e4ff;
+}
+
+.dark-mode input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  color: #e0f7fa;
+}
+
+.dark-mode input::placeholder {
+  color: rgba(200, 255, 255, 0.5);
+}
+
+.dark-mode .signin-btn, 
+.dark-mode .login-btn {
+  background: linear-gradient(90deg, #00ffff, #0077ff);
+  color: #000;
+}
+
+.dark-mode .signin-btn:hover,
+.dark-mode .login-btn:hover {
+  box-shadow: 0 0 12px #00ffff;
+  transform: scale(1.03);
+}
+
+.dark-mode .form-footer {
+  color: #b8ffff;
+}
+
+.dark-mode .link {
+  color: #00ffff;
+}

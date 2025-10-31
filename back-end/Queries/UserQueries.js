@@ -10,6 +10,5 @@ const User = {
   const sql = "SELECT * FROM user WHERE username = ?";
   db.query(sql, [username], callback);
 }
-
 };
 module.exports = User;

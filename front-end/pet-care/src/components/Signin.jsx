@@ -25,6 +25,7 @@ export default function Signin() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const { first_name, last_name, username, email, phone_number, password } = formData;
 
     if (!first_name || !last_name || !username || !email || !phone_number || !password) {
@@ -34,9 +35,10 @@ export default function Signin() {
 
     try {
       const result = await registerUser(formData);
+
       if (result.message === "Registered successfully") {
         console.log("Registered successfully:", formData);
-        navigate("/");
+        navigate("/"); 
       } else {
         alert(result.message);
       }
@@ -47,6 +49,7 @@ export default function Signin() {
 
   return (
     <div className="auth-container">
+      {}
       <div className="background-layer">
         <LightRays
           raysOrigin="top-center"
@@ -61,14 +64,20 @@ export default function Signin() {
         />
       </div>
 
+      {}
       <div className="overlay"></div>
 
+      {}
       <div className="form-section">
         <div className="form-wrapper">
-          <div className="logo"><span>PetCare</span></div>
+          <div className="logo">
+            <span>PetCare</span>
+          </div>
+
           <h2>Create an Account</h2>
 
           <form onSubmit={handleSubmit}>
+            {}
             <div className="two-columns">
               <div className="form-group">
                 <label htmlFor="first_name">First Name</label>
@@ -95,6 +104,7 @@ export default function Signin() {
               </div>
             </div>
 
+            {}
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input
@@ -107,6 +117,7 @@ export default function Signin() {
               />
             </div>
 
+            {}
             <div className="two-columns">
               <div className="form-group">
                 <label htmlFor="email">Email</label>
@@ -133,6 +144,7 @@ export default function Signin() {
               </div>
             </div>
 
+            {}
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
@@ -145,13 +157,19 @@ export default function Signin() {
               />
             </div>
 
-            <button type="submit" className="login-btn">Sign Up</button>
+            {}
+            <button type="submit" className="login-btn">
+              Sign Up
+            </button>
           </form>
 
+          {}
           <div className="form-footer">
             <p>
               Already have an account?{" "}
-              <a href="/Login" className="link">Login</a>
+              <a href="/Login" className="link">
+                Login
+              </a>
             </p>
           </div>
         </div>

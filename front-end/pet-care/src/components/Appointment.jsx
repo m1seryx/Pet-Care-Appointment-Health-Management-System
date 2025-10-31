@@ -47,7 +47,7 @@ export default function Appointment() {
             Follow the steps to set up an appointment for your pet’s check-up, vaccination, or grooming.
           </p>
           <p className="contact-info">
-            <strong>561.450.6721</strong>
+            <strong>09912345678</strong>
             <br />
             <span>petcare@gmail.com</span>
           </p>
