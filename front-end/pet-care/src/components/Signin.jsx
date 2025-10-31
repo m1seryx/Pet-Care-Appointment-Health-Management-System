@@ -36,9 +36,9 @@ export default function Signin() {
     try {
       const result = await registerUser(formData);
 
-      if (result.message === "Registered successfully") {
-        console.log("Registered successfully:", formData);
-        navigate("/"); 
+      if (result.message === "Registration successful") {
+        console.log("Registration successful:", formData);
+        navigate("/UserDashboard"); 
       } else {
         alert(result.message);
       }

@@ -3,21 +3,43 @@ const User = require('../Queries/UserQueries');
 const Admin = require('../Queries/adminQueries');
 const jwt = require('jsonwebtoken');
 
-exports.register = (req,res) => {
-  const {first_name, last_name, username, email, password, phone_number} = req.body;
+exports.register = (req, res) => {
+  const { first_name, last_name, username, email, password, phone_number } = req.body;
 
+ 
+  User.findByUsername(username, (err, results) => {
+    if (err) return res.status(500).json({ message: "Database error", error: err });
+    if (results.length > 0) return res.status(400).json({ message: "Username must be unique" });
 
-User.findByUsername(username, (err, results) => {
-  if (err) return res.status(500).json({message: "Database error", error: err});
-  if (results.length > 0) return res.status(400).json({message: "Username must be unique"});
+    
+    const hashedPassword = bcrypt.hashSync(password, 10);
 
-  const hashedPassword = bcrypt.hashSync(password, 10);
+   
+    User.create(first_name, last_name, username, email, hashedPassword, phone_number, (err, result) => {
+      if (err) return res.status(500).json({ message: "Error creating user", error: err });
 
-User.create(first_name, last_name, username, email, hashedPassword, phone_number,(err) =>{
-  if (err) return res.status(500).json({message: "Error creating user", error: err});
-  res.json({message: "Registered successfully"});
-})
-});
+      
+      const token = jwt.sign(
+        { id: result.insertId, role: 'user' },
+        process.env.JWT_SECRET || "secret",
+        { expiresIn: '24h' }
+      );
+
+      res.json({
+        message: "Registration successful",
+        token,
+        role: 'user',
+        user: {
+          id: result.insertId,
+          first_name,
+          last_name,
+          username,
+          email,
+          phone_number
+        }
+      });
+    });
+  });
 };
 
 exports.login = async (req, res) => {

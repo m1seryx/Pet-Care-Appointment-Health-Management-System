@@ -12,15 +12,22 @@ export async function registerUser(userData) {
     });
 
     const data = await response.json();
-    
+
     if (!response.ok) {
-      return data;
+      return { success: false, message: data.message || 'Registration failed' };
     }
-    
-    return data; 
+
+    // You can choose whether to store token here or only on login
+    if (data.token) {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role);
+      localStorage.setItem('user', JSON.stringify(data.user));
+    }
+
+    return { success: true, ...data };
   } catch (error) {
     console.error('Register fetch error:', error);
-    return { message: 'Server error during registration' };
+    return { success: false, message: 'Server error during registration' };
   }
 }
 
@@ -40,7 +47,7 @@ export async function loginUser(credentials) {
       return data; 
     }
     
-    // ✅ Store token and user data here
+   
     if (data.message === "Login successful" || data.message === "Admin login successful") {
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.role);
@@ -55,7 +62,7 @@ export async function loginUser(credentials) {
   }
 }
 
-// Helper functions
+
 export function getToken() {
   return localStorage.getItem('token');
 }
