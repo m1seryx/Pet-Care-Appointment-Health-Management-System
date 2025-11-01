@@ -1813,3 +1813,26 @@
       aspect-ratio: 4/3;
     }
   
+    .prof {
+      width: 40px;
+      height: 40px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+  .notif{
+    width: 25px;
+    height: 25px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: 7px;
+  }    
+
+  .profile{
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+  }

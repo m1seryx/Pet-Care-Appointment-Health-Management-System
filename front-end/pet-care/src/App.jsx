@@ -7,6 +7,7 @@ import Signin from './components/Signin';
 import Appointment from './components/Appointment';
 import UserDashboard from './components/UserDashboard';
 import AdminHome from './components/AdminDashboard'
+import Profile from './components/profile';
 
 
 
@@ -20,6 +21,7 @@ function App() {
         <Route path="/appointment" element={<Appointment />} />
         <Route path="/UserDashboard" element={<UserDashboard />} />
         <Route path="/Admin" element={<AdminHome />} />
+        <Route path="/profile" element={<Profile />} />
 
       </Routes>
 

@@ -4,6 +4,8 @@ import './UserDashboard.css';
 import heroBg from '../assets/coverphoto.jpg';
 import car from '../assets/ca.png';
 import about from '../assets/abb.png';
+import profile from '../assets/dp.png';
+import notify from '../assets/notif.png';
 
 
 function UserDashboard() {
@@ -65,6 +67,18 @@ function UserDashboard() {
             <a href="#about" className="nav-link">About</a>
           </nav>
 
+ 
+        <div className='profile'>
+
+        <div className='notify'>
+          <div className='notif'style={{ backgroundImage: `url(${notify})` }}>
+          </div>
+        </div>
+
+          <div className='prof' onClick={() => navigate('/profile')} style={{ backgroundImage: `url(${profile})` }}>
+          </div>
+
+        </div>
 
           <button className="mobile-menu-btn" onClick={toggleMenu}>
             {isMenuOpen ? '✕' : '☰'}
