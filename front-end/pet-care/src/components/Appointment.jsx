@@ -23,28 +23,62 @@ export default function Appointment() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("🐾 Appointment booked successfully!");
-    console.log(formData);
+
+    if (step < 3) {
+      nextStep();
+    } else {
+      
+      if (
+        formData.firstName &&
+        formData.lastName &&
+        formData.email &&
+        formData.phone &&
+        formData.date &&
+        formData.time &&
+        formData.service
+      ) {
+        alert("🐾 Appointment booked successfully!");
+        console.log("Appointment Details:", formData);
+
+        
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          notes: "",
+          date: "",
+          time: "",
+          service: "",
+        });
+        setStep(1);
+      } else {
+        alert("⚠️ Please complete all fields before submitting!");
+      }
+    }
   };
 
   return (
     <div className="appointment-container">
       <div className="appointment-box">
-        {}
+      
         <div className="steps-indicator">
           {[1, 2, 3].map((num) => (
-            <div key={num} className={`step-circle ${step === num ? "active" : ""}`}>
+            <div
+              key={num}
+              className={`step-circle ${step === num ? "active" : ""}`}
+            >
               {num}
             </div>
           ))}
         </div>
 
-        {}
         <div className="right-panel">
           <i className="fa-solid fa-calendar-check icon"></i>
           <h2>Book Your Pet's Appointment</h2>
           <p>
-            Follow the steps to set up an appointment for your pet’s check-up, vaccination, or grooming.
+            Follow the steps to set up an appointment for your pet’s check-up,
+            vaccination, or grooming.
           </p>
           <p className="contact-info">
             <strong>09912345678</strong>
@@ -53,9 +87,9 @@ export default function Appointment() {
           </p>
         </div>
 
-        {}
+        
         <form className="form-panel" onSubmit={handleSubmit}>
-          {}
+          
           {step === 1 && (
             <>
               <h3>Pet Owner Info:</h3>
@@ -66,6 +100,7 @@ export default function Appointment() {
                   placeholder="First name"
                   value={formData.firstName}
                   onChange={handleChange}
+                  required
                 />
                 <input
                   type="text"
@@ -73,6 +108,7 @@ export default function Appointment() {
                   placeholder="Last name"
                   value={formData.lastName}
                   onChange={handleChange}
+                  required
                 />
               </div>
               <input
@@ -81,6 +117,7 @@ export default function Appointment() {
                 placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
+                required
               />
               <input
                 type="text"
@@ -88,6 +125,7 @@ export default function Appointment() {
                 placeholder="Phone number"
                 value={formData.phone}
                 onChange={handleChange}
+                required
               />
               <textarea
                 name="notes"
@@ -98,7 +136,7 @@ export default function Appointment() {
             </>
           )}
 
-          {}
+          
           {step === 2 && (
             <>
               <h3>Choose Appointment Date & Time:</h3>
@@ -107,11 +145,13 @@ export default function Appointment() {
                 name="date"
                 value={formData.date}
                 onChange={handleChange}
+                required
               />
               <select
                 name="time"
                 value={formData.time}
                 onChange={handleChange}
+                required
               >
                 <option value="">Select Time</option>
                 <option value="09:00 AM">09:00 AM</option>
@@ -129,60 +169,36 @@ export default function Appointment() {
             <>
               <h3>Select Pet Care Service:</h3>
               <div className="service-option">
-                <label>
-                  <input
-                    type="radio"
-                    name="service"
-                    value="General Check-up"
-                    checked={formData.service === "General Check-up"}
-                    onChange={handleChange}
-                  />
-                  <span>🩺 General Check-up</span>
-                </label>
-
-                <label>
-                  <input
-                    type="radio"
-                    name="service"
-                    value="Vaccination"
-                    checked={formData.service === "Vaccination"}
-                    onChange={handleChange}
-                  />
-                  <span>💉 Vaccination</span>
-                </label>
-
-                <label>
-                  <input
-                    type="radio"
-                    name="service"
-                    value="Grooming"
-                    checked={formData.service === "Grooming"}
-                    onChange={handleChange}
-                  />
-                  <span>✂️ Grooming Session</span>
-                </label>
-
-                <label>
-                  <input
-                    type="radio"
-                    name="service"
-                    value="Dental Cleaning"
-                    checked={formData.service === "Dental Cleaning"}
-                    onChange={handleChange}
-                  />
-                  <span>🦷 Dental Cleaning</span>
-                </label>
-
-                <label>
-                  <input
-                    type="radio"
-                    name="service"
-                    value="Emergency Visit"
-                    checked={formData.service === "Emergency Visit"}
-                    onChange={handleChange}
-                  />
-                  <span>🚑 Emergency Visit</span>
-                </label>
+                {[
+                  "General Check-up",
+                  "Vaccination",
+                  "Grooming",
+                  "Dental Cleaning",
+                  "Emergency Visit",
+                ].map((service) => (
+                  <label key={service}>
+                    <input
+                      type="radio"
+                      name="service"
+                      value={service}
+                      checked={formData.service === service}
+                      onChange={handleChange}
+                      required
+                    />
+                    <span>
+                      {service === "General Check-up"
+                        ? "🩺 "
+                        : service === "Vaccination"
+                        ? "💉 "
+                        : service === "Grooming"
+                        ? "✂️ "
+                        : service === "Dental Cleaning"
+                        ? "🦷 "
+                        : "🚑 "}
+                      {service}
+                    </span>
+                  </label>
+                ))}
               </div>
             </>
           )}
