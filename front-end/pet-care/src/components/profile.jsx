@@ -122,8 +122,10 @@ function UserDashboard() {
                 <div className="pet-info">
                   <h3>Dochi Sabuero</h3>
                   <div className="pet-details">
-                    <div><strong>Age:</strong> 1 year old</div>
-                    <div><strong>Pet:</strong> Cat</div>
+                    <div><strong>Age:</strong> 3 years old</div>
+                    <div><strong>Species:</strong>Cat</div>
+                    <div><strong>Breed:</strong>Tilapia Cat</div>
+                    <div><strong>Gender:</strong>Female</div>
                   </div>
                 </div>
                 <span className="pet-badge">Active</span>
@@ -132,10 +134,12 @@ function UserDashboard() {
             <div className="pet-card">
               <div className="pet-card-header">
                 <div className="pet-info">
-                  <h3>Dochi Sabuero</h3>
+                  <h3>PunPun Sabuero</h3>
                   <div className="pet-details">
                     <div><strong>Age:</strong> 1 year old</div>
-                    <div><strong>Pet:</strong> Cat</div>
+                    <div><strong>Species:</strong>Cat</div>
+                    <div><strong>Breed:</strong>Tilapia Cat</div>
+                    <div><strong>Gender:</strong>Female</div>
                   </div>
                 </div>
                 <span className="pet-badge">Active</span>
@@ -180,7 +184,6 @@ function UserDashboard() {
                   <th>Name of Pet</th>
                   <th>Date & Appointment Time</th>
                   <th>Service Type</th>
-                  <th>What Else</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -189,14 +192,12 @@ function UserDashboard() {
                   <td>Dochi</td>
                   <td>Nov 5, 2025 - 10:00 AM</td>
                   <td>Vaccination</td>
-                  <td>Annual checkup</td>
                   <td><span className="status-badge status-pending">Pending</span></td>
                 </tr>
                 <tr>
                   <td>Luna</td>
                   <td>Nov 8, 2025 - 2:30 PM</td>
                   <td>Grooming</td>
-                  <td>Full service</td>
                   <td><span className="status-badge status-pending">Pending</span></td>
                 </tr>
               </tbody>
