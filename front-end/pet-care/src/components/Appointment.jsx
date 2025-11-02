@@ -1,8 +1,18 @@
 import React, { useState } from "react";
 import "./Appointment.css";
 
-export default function Appointment() {
+export default function Appointment({ closeModal }) {
   const [step, setStep] = useState(1);
+  const [hasPet, setHasPet] = useState(false);
+  const [petId, setPetId] = useState(null);
+
+  const [petData, setPetData] = useState({
+    name: "",
+    breed: "",
+    age: "",
+    profile: "",
+  });
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -15,82 +25,155 @@ export default function Appointment() {
   });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    step === 1
+      ? setPetData({ ...petData, [name]: value })
+      : setFormData({ ...formData, [name]: value });
   };
 
-  const nextStep = () => setStep((prev) => Math.min(prev + 1, 3));
+  const handleNext = async () => {
+    if (step === 1 && !hasPet) {
+      try {
+        // Submit pet data first (since Pet is FK)
+        const response = await fetch("/api/pets", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(petData),
+        });
+
+        if (!response.ok) throw new Error("Failed to save pet data");
+
+        const savedPet = await response.json();
+        setPetId(savedPet.id); // store new Pet ID for later
+        alert("🐾 Pet saved successfully! Proceed to owner info.");
+        setStep(2);
+      } catch (err) {
+        console.error(err);
+        alert("⚠️ Could not save pet data. Please try again.");
+      }
+    } else {
+      setStep((prev) => Math.min(prev + 1, 4));
+    }
+  };
+
   const prevStep = () => setStep((prev) => Math.max(prev - 1, 1));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (step < 3) {
-      nextStep();
-    } else {
-      
-      if (
-        formData.firstName &&
-        formData.lastName &&
-        formData.email &&
-        formData.phone &&
-        formData.date &&
-        formData.time &&
-        formData.service
-      ) {
-        alert("🐾 Appointment booked successfully!");
-        console.log("Appointment Details:", formData);
+    if (
+      formData.firstName &&
+      formData.lastName &&
+      formData.email &&
+      formData.phone &&
+      formData.date &&
+      formData.time &&
+      formData.service
+    ) {
+      try {
+        const appointmentPayload = {
+          ...formData,
+          petId, // Use saved FK
+        };
 
-        
-        setFormData({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          notes: "",
-          date: "",
-          time: "",
-          service: "",
+        const res = await fetch("/api/appointments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(appointmentPayload),
         });
-        setStep(1);
-      } else {
-        alert("⚠️ Please complete all fields before submitting!");
+
+        if (!res.ok) throw new Error("Failed to save appointment");
+        alert("✅ Appointment booked successfully!");
+        closeModal();
+      } catch (err) {
+        console.error(err);
+        alert("⚠️ Error submitting appointment. Try again.");
       }
+    } else {
+      alert("⚠️ Please complete all fields before submitting!");
     }
   };
 
   return (
     <div className="appointment-container">
       <div className="appointment-box">
-      
+        {/* Steps Indicator */}
         <div className="steps-indicator">
-          {[1, 2, 3].map((num) => (
-            <div
-              key={num}
-              className={`step-circle ${step === num ? "active" : ""}`}
-            >
+          {[1, 2, 3, 4].map((num) => (
+            <div key={num} className={`step-circle ${step === num ? "active" : ""}`}>
               {num}
             </div>
           ))}
         </div>
 
+        {/* Info Panel */}
         <div className="right-panel">
-          <i className="fa-solid fa-calendar-check icon"></i>
+          <i className="fa-solid fa-paw icon"></i>
           <h2>Book Your Pet's Appointment</h2>
-          <p>
-            Follow the steps to set up an appointment for your pet’s check-up,
-            vaccination, or grooming.
-          </p>
+          <p>Add your pet details and schedule their next visit with ease.</p>
           <p className="contact-info">
-            <strong>09912345678</strong>
-            <br />
+            <strong>09912345678</strong><br />
             <span>petcare@gmail.com</span>
           </p>
         </div>
 
-        
+        {/* Form */}
         <form className="form-panel" onSubmit={handleSubmit}>
-          
+          {/* Step 1: Pet Info */}
           {step === 1 && (
+            <>
+              <h3>Pet Information:</h3>
+              <label className="checkbox">
+                <input
+                  type="checkbox"
+                  checked={hasPet}
+                  onChange={() => setHasPet(!hasPet)}
+                />
+               <h4>I already have a pet on file</h4> 
+              </label>
+
+              {!hasPet && (
+                <>
+                  <div className="input-group">
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Pet name"
+                      value={petData.name}
+                      onChange={handleChange}
+                      required
+                    />
+                    <input
+                      type="text"
+                      name="breed"
+                      placeholder="Breed"
+                      value={petData.breed}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <input
+                    type="number"
+                    name="age"
+                    placeholder="Age"
+                    value={petData.age}
+                    onChange={handleChange}
+                    required
+                  />
+                  <input
+                    type="text"
+                    name="profile"
+                    placeholder="Profile photo URL (optional)"
+                    value={petData.profile}
+                    onChange={handleChange}
+                  />
+                </>
+              )}
+            </>
+          )}
+
+          
+          {step === 2 && (
             <>
               <h3>Pet Owner Info:</h3>
               <div className="input-group">
@@ -129,15 +212,15 @@ export default function Appointment() {
               />
               <textarea
                 name="notes"
-                placeholder="Additional notes (e.g. pet name, special care)"
+                placeholder="Additional notes"
                 value={formData.notes}
                 onChange={handleChange}
               ></textarea>
             </>
           )}
 
-          
-          {step === 2 && (
+         
+          {step === 3 && (
             <>
               <h3>Choose Appointment Date & Time:</h3>
               <input
@@ -164,8 +247,8 @@ export default function Appointment() {
             </>
           )}
 
-          {}
-          {step === 3 && (
+          
+          {step === 4 && (
             <>
               <h3>Select Pet Care Service:</h3>
               <div className="service-option">
@@ -185,33 +268,22 @@ export default function Appointment() {
                       onChange={handleChange}
                       required
                     />
-                    <span>
-                      {service === "General Check-up"
-                        ? "🩺 "
-                        : service === "Vaccination"
-                        ? "💉 "
-                        : service === "Grooming"
-                        ? "✂️ "
-                        : service === "Dental Cleaning"
-                        ? "🦷 "
-                        : "🚑 "}
-                      {service}
-                    </span>
+                    <span>{service}</span>
                   </label>
                 ))}
               </div>
             </>
           )}
 
-          {}
+          
           <div className="button-group">
             {step > 1 && (
               <button type="button" onClick={prevStep} className="back-btn">
                 ← Back
               </button>
             )}
-            {step < 3 ? (
-              <button type="button" onClick={nextStep} className="next-btn">
+            {step < 4 ? (
+              <button type="button" onClick={handleNext} className="next-btn">
                 Next Step →
               </button>
             ) : (
