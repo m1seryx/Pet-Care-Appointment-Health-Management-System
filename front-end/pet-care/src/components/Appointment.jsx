@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Appointment.css";
+import { addPet } from "../api/petApi";
 
 export default function Appointment({ closeModal }) {
   const [step, setStep] = useState(1);
@@ -10,7 +11,7 @@ export default function Appointment({ closeModal }) {
     name: "",
     breed: "",
     age: "",
-    profile: "",
+    medical_history: "",
   });
 
   const [formData, setFormData] = useState({
@@ -34,19 +35,11 @@ export default function Appointment({ closeModal }) {
   const handleNext = async () => {
     if (step === 1 && !hasPet) {
       try {
-        // Submit pet data first (since Pet is FK)
-        const response = await fetch("/api/pets", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(petData),
-        });
+        const response = await addPet(petData);
+        if (!response.ok) throw new Error(result.message);
 
-        if (!response.ok) throw new Error("Failed to save pet data");
-
-        const savedPet = await response.json();
-        setPetId(savedPet.id); // store new Pet ID for later
-        alert("🐾 Pet saved successfully! Proceed to owner info.");
-        setStep(2);
+       setPetId(response.pet?.pet_id)
+       alert("✅ Pet data saved successfully!");
       } catch (err) {
         console.error(err);
         alert("⚠️ Could not save pet data. Please try again.");
@@ -73,7 +66,7 @@ export default function Appointment({ closeModal }) {
       try {
         const appointmentPayload = {
           ...formData,
-          petId, // Use saved FK
+          petId,
         };
 
         const res = await fetch("/api/appointments", {
@@ -162,9 +155,9 @@ export default function Appointment({ closeModal }) {
                   />
                   <input
                     type="text"
-                    name="profile"
+                    name="medical_history"
                     placeholder="Profile photo URL (optional)"
-                    value={petData.profile}
+                    value={petData.medical_history}
                     onChange={handleChange}
                   />
                 </>
