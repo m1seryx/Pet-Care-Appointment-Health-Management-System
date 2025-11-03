@@ -14,6 +14,7 @@ export async function addPet(petData) {
     });
 
     const data = await response.json();
+    console.log("Add Pet Response:", data);
 
     if (!response.ok) {
       return { success: false, message: data.message || 'Error adding pet' };

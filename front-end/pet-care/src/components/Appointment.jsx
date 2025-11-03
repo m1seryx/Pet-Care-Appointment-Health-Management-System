@@ -8,7 +8,7 @@ export default function Appointment({ closeModal }) {
   const [petId, setPetId] = useState(null);
 
   const [petData, setPetData] = useState({
-    name: "",
+    pet_name: "",
     breed: "",
     age: "",
     medical_history: "",
@@ -36,12 +36,12 @@ export default function Appointment({ closeModal }) {
     if (step === 1 && !hasPet) {
       try {
         const response = await addPet(petData);
-        if (!response.ok) throw new Error(result.message);
+        if (!response.success) throw new Error(result.message);
 
        setPetId(response.pet?.pet_id)
        alert("✅ Pet data saved successfully!");
       } catch (err) {
-        console.error(err);
+        console.error(err); 
         alert("⚠️ Could not save pet data. Please try again.");
       }
     } else {
@@ -130,9 +130,9 @@ export default function Appointment({ closeModal }) {
                   <div className="input-group">
                     <input
                       type="text"
-                      name="name"
+                      name="pet_name"
                       placeholder="Pet name"
-                      value={petData.name}
+                      value={petData.pet_name}
                       onChange={handleChange}
                       required
                     />
@@ -146,7 +146,7 @@ export default function Appointment({ closeModal }) {
                     />
                   </div>
                   <input
-                    type="number"
+                    type="text"
                     name="age"
                     placeholder="Age"
                     value={petData.age}
