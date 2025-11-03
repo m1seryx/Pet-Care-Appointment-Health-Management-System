@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './UserDashboard.css';
 import heroBg from '../assets/coverphoto.jpg';
 import car from '../assets/ca.png';
 import about from '../assets/abb.png';
 import profile from '../assets/dp.png';
 import notify from '../assets/notif.png';
-import Appointment from './Appointment'; // ✅ Add this import
+import Appointment from './Appointment'; 
 
 function UserDashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false); // ✅ Add modal state
+  const [showModal, setShowModal] = useState(false); 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,6 +21,24 @@ function UserDashboard() {
     }, 100);
     return () => clearTimeout(timer);
   }, []);
+
+  
+  const openAppointment = () => {
+    navigate("#appointment"); 
+    setShowModal(true);
+  };
+
+  const closeAppointment = () => {
+    navigate("#home"); // revert breadcrumb / hash
+    setShowModal(false);
+  };
+
+  // Optional: automatically open modal if URL already has #appointment
+  useEffect(() => {
+    if (location.hash === "#appointment") {
+      setShowModal(true);
+    }
+  }, [location]);
 
   const services = [
     {
@@ -43,11 +62,13 @@ function UserDashboard() {
 
   return (
     <div className="app">
+      {/* Decorative Background Elements */}
       <div className="decorative-elements">
         <div className="bubble bubble-1"></div>
         <div className="bubble bubble-2"></div>
       </div>
 
+      {/* HEADER */}
       <header className="header">
         <div className="header-content">
           <div className="logo-section">
@@ -58,7 +79,7 @@ function UserDashboard() {
           <nav className="desktop-nav">
             <a href="#home" className="nav-link">Home</a>
             <a href="#services" className="nav-link">Services</a>
-            <a href="#appointment" className="nav-link">Appointment</a>
+            <a href="#appointment" className="nav-link" onClick={(e) => { e.preventDefault(); openAppointment(); }}>Appointment</a>
             <a href="#about" className="nav-link">About</a>
           </nav>
 
@@ -88,6 +109,7 @@ function UserDashboard() {
         )}
       </header>
 
+      {/* HERO SECTION */}
       <section id="home" className="hero" style={{ backgroundImage: `url(${heroBg})` }}>
         <div className="hero-overlay"></div>
         <div className="hero-content">
@@ -102,7 +124,7 @@ function UserDashboard() {
             </p>
             <button
               className={`cta-btn ${isVisible ? 'animate-in delay-2' : ''}`}
-              onClick={() => setShowModal(true)} // ✅ open modal instead of navigating
+              onClick={openAppointment}
             >
               Book Now!
             </button>
@@ -110,6 +132,7 @@ function UserDashboard() {
         </div>
       </section>
 
+      {/* SERVICES */}
       <section id="services" className="services">
         <div className="services-content">
           <div className="services-header">
@@ -134,6 +157,7 @@ function UserDashboard() {
         </div>
       </section>
 
+      {/* APPOINTMENT SECTION */}
       <section id="appointment" className="appointment">
         <div className="app-container">
           <div className="app-content">
@@ -153,10 +177,7 @@ function UserDashboard() {
                 appointment status.
               </p>
 
-              <button
-                className="book-button"
-                onClick={() => setShowModal(true)} // ✅ modal open
-              >
+              <button className="book-button" onClick={openAppointment}>
                 Book Appointment
               </button>
             </div>
@@ -176,6 +197,7 @@ function UserDashboard() {
         </div>
       </section>
 
+      {/* ABOUT SECTION */}
       <section id='about' className='about'>
         <div className="about-content">
           <div className="about-header">
@@ -211,6 +233,7 @@ function UserDashboard() {
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer id="contact" className="footer">
         <div className="footer-content">
           <div className="footer-logo">
@@ -223,12 +246,12 @@ function UserDashboard() {
         </div>
       </footer>
 
-      {/* ✅ MODAL OVERLAY */}
+      {/* MODAL */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-content">
-            <button className="close-modal" onClick={() => setShowModal(false)}>✖</button>
-            <Appointment closeModal={() => setShowModal(false)} />
+            <button className="close-modal" onClick={closeAppointment}>✖</button>
+            <Appointment closeModal={closeAppointment} />
           </div>
         </div>
       )}

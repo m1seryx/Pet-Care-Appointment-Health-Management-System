@@ -22,7 +22,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  margin-top: 120px;
+  margin: 10px  0px
   
 }
 
@@ -178,6 +178,7 @@ select {
   background: #1e3a8a;
   color: #fff;
   padding: 0.8rem 1.5rem;
+  border-radius: 18px;
 }
 
 .next-btn:hover,
@@ -189,12 +190,13 @@ select {
   background: #d1d5db;
   color: #333;
   padding: 0.8rem 1.5rem;
+   border-radius: 18px;
 }
 
 .back-btn:hover {
   background: #bfc5cc;
 }
-/* Modal styling */
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -212,6 +214,11 @@ select {
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 .close-modal {
