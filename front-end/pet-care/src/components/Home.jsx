@@ -180,7 +180,7 @@ function Home() {
       <div className="about-content">
           <div className="about-header">
             <h2 className="about-title">
-               <span className="text-about">PetCare</span>
+              About <span className="text-about">PetCare</span>
             </h2>
           </div>
 
