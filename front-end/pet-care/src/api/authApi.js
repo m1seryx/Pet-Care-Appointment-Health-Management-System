@@ -17,7 +17,7 @@ export async function registerUser(userData) {
       return { success: false, message: data.message || 'Registration failed' };
     }
 
-    // You can choose whether to store token here or only on login
+ 
     if (data.token) {
       localStorage.setItem('token', data.token);
       localStorage.setItem('role', data.role);

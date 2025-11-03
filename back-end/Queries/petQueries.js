@@ -6,7 +6,7 @@ const Pet = {
     db.query(sql, [user_id, pet_name, age, breed, gender, medical_history], callback);
   },
   getByUser: (user_id, callback) =>{
-    const sql = "SELECT * FROM user WHERE user_id = ?";
+    const sql = "SELECT * FROM pet WHERE user_id = ?";
     db.query(sql, [user_id], callback);
   }
 };

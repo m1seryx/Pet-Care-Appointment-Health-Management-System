@@ -1,0 +1,23 @@
+const Pet = require('../Queries/petQueries');
+
+exports.PetCreate = (req, res) => {
+  const user_id = req.user.id; 
+  const { pet_name, age, breed, gender, medical_history } = req.body;
+  
+  Pet.create(user_id, pet_name, age, breed, gender, medical_history, (err, result) => {
+    if (err) {
+      return res.status(500).json({
+        message: "Error adding pet",
+        error: err
+      });
+    }
+
+    res.status(201).json({
+      message: "Pet added successfully",
+      pet: {
+        pet_id: result.insertId,
+        user_id
+      }
+    });
+  });
+};

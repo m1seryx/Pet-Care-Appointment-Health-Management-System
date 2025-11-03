@@ -8,8 +8,12 @@ app.use(cors());
 
 app.use(express.static('views'));
 const authRoutes = require('./routes/authRoutes');
+const petRoutes = require('./routes/petRoutes');
 
 
+
+
+app.use('/pets', petRoutes);
 
 app.use('/api', authRoutes);
 
