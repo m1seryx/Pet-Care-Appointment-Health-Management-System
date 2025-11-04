@@ -1,9 +1,9 @@
 const db = require('../config/db');
 
 const Appointment = {
-  create: (user_id, pet_id, date_time, service, callback) => {
-    const sql = "INSERT INTO appointment (user_id, pet_id, date_time, service) VALUES (?, ?, ?, ?)";
-    db.query(sql, [user_id, pet_id, date_time, service], callback);
+  create: (user_id, pet_id, date_time, service, notes, callback) => {
+    const sql = "INSERT INTO appointment (user_id, pet_id, date_time, service, notes) VALUES (?, ?, ?, ?, ?)";
+    db.query(sql, [user_id, pet_id, date_time, service, notes || null], callback);
   },
   getByUser: (user_id, callback) => {
     

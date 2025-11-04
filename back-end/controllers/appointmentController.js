@@ -5,7 +5,8 @@ exports.AppointmentCreate = (req, res) => {
   const pet_id = req.body.pet_id;
   const { service, date_time, notes } = req.body;
   
-  Appointment.create(user_id, pet_id, service, date_time, notes, (err, result) => {
+ 
+  Appointment.create(user_id, pet_id, date_time, service, notes, (err, result) => {
     if (err) {
       console.error("Appointment error:", err);
       return res.status(500).json({
@@ -16,13 +17,13 @@ exports.AppointmentCreate = (req, res) => {
 
     res.status(201).json({
       message: "Appointment added successfully",
-      Appointment: {
+      appointment: {
         appointment_id: result.insertId,
         user_id,
         pet_id,
         service,
         date_time,
-        notes
+        notes: notes || null
       }
     });
   });
