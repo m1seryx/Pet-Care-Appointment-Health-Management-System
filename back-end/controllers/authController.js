@@ -55,7 +55,11 @@ exports.login = async (req, res) => {
       const isMatch = bcrypt.compareSync(password, user.password);
       if (!isMatch) return res.status(401).json({message: "Invalid credentials"});
       
-      const token = jwt.sign({id: user.user_id, role: 'user'}, "secret", {expiresIn: '24h'});
+    const token = jwt.sign(
+  { id: user.user_id, role: 'user', first_name: user.first_name, last_name: user.last_name },
+  "secret",
+  { expiresIn: '24h' }
+);
       return res.json({token, role: 'user', message: "Login successful"});
     }
     
@@ -68,7 +72,11 @@ exports.login = async (req, res) => {
       const isMatch = bcrypt.compareSync(password, admin.password);
       if (!isMatch) return res.status(401).json({message: "Invalid credentials"});
       
-      const token = jwt.sign({id: admin.admin_id, role: 'admin'}, "secret", {expiresIn: '24h'});
+   const token = jwt.sign(
+  { id: user.user_id, role: 'user', first_name: user.first_name, last_name: user.last_name },
+  "secret",
+  { expiresIn: '24h' }
+);
       return res.json({token, role: 'admin', message: "Admin login successful"});
     });
   });

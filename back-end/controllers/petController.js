@@ -6,6 +6,7 @@ exports.PetCreate = (req, res) => {
   
   Pet.create(user_id, pet_name, age, breed, gender, medical_history, (err, result) => {
     if (err) {
+      console.error("Pet insert error:", err);
       return res.status(500).json({
         message: "Error adding pet",
         error: err

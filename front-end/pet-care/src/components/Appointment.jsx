@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Appointment.css";
 import { addPet } from "../api/petApi";
 
@@ -11,6 +11,7 @@ export default function Appointment({ closeModal }) {
     pet_name: "",
     breed: "",
     age: "",
+    gender: "",
     medical_history: "",
   });
 
@@ -25,25 +26,35 @@ export default function Appointment({ closeModal }) {
     service: "",
   });
 
+   useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const firstName = payload.first_name || '';
+        const lastName = payload.last_name || '';
+        setFormData(prev => ({ ...prev, firstName, lastName }));
+      } catch (err) {
+        console.error('Error decoding token:', err);
+      }
+    }
+  }, []);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
-    step === 1
-      ? setPetData({ ...petData, [name]: value })
-      : setFormData({ ...formData, [name]: value });
+    if (step === 1) {
+      setPetData({ ...petData, [name]: value });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
+
+  
 
   const handleNext = async () => {
     if (step === 1 && !hasPet) {
-      try {
-        const response = await addPet(petData);
-        if (!response.success) throw new Error(result.message);
-
-       setPetId(response.pet?.pet_id)
-       alert("✅ Pet data saved successfully!");
-      } catch (err) {
-        console.error(err); 
-        alert("⚠️ Could not save pet data. Please try again.");
-      }
+      
+      setStep((prev) => Math.min(prev + 1, 4));
     } else {
       setStep((prev) => Math.min(prev + 1, 4));
     }
@@ -64,13 +75,22 @@ export default function Appointment({ closeModal }) {
       formData.service
     ) {
       try {
+        let finalPetId = petId;
+
+  
+        if (!hasPet) {
+          const petResponse = await addPet(petData);
+          if (!petResponse.success) throw new Error(petResponse.message);
+          finalPetId = petResponse.pet?.pet_id;
+        }
+
         const appointmentPayload = {
           ...formData,
-          petId,
+          petId: finalPetId,
         };
 
         const res = await fetch("/api/appointments", {
-          method: "POST",
+          method: "POST", 
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(appointmentPayload),
         });
@@ -90,7 +110,7 @@ export default function Appointment({ closeModal }) {
   return (
     <div className="appointment-container">
       <div className="appointment-box">
-        {/* Steps Indicator */}
+   
         <div className="steps-indicator">
           {[1, 2, 3, 4].map((num) => (
             <div key={num} className={`step-circle ${step === num ? "active" : ""}`}>
@@ -99,7 +119,6 @@ export default function Appointment({ closeModal }) {
           ))}
         </div>
 
-        {/* Info Panel */}
         <div className="right-panel">
           <i className="fa-solid fa-paw icon"></i>
           <h2>Book Your Pet's Appointment</h2>
@@ -153,6 +172,16 @@ export default function Appointment({ closeModal }) {
                     onChange={handleChange}
                     required
                   />
+                  <select
+                    name="gender"
+                    value={petData.gender}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
                   <input
                     type="text"
                     name="medical_history"
@@ -177,6 +206,7 @@ export default function Appointment({ closeModal }) {
                   value={formData.firstName}
                   onChange={handleChange}
                   required
+                  readOnly
                 />
                 <input
                   type="text"
@@ -185,6 +215,7 @@ export default function Appointment({ closeModal }) {
                   value={formData.lastName}
                   onChange={handleChange}
                   required
+                  readOnly
                 />
               </div>
               <input
