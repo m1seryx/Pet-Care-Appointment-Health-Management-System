@@ -9,9 +9,10 @@ app.use(cors());
 app.use(express.static('views'));
 const authRoutes = require('./routes/authRoutes');
 const petRoutes = require('./routes/petRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
 
 
-
+app.use('/appointments', appointmentRoutes);
 
 app.use('/pets', petRoutes);
 

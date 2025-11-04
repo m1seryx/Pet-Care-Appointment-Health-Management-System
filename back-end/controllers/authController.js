@@ -56,8 +56,8 @@ exports.login = async (req, res) => {
       if (!isMatch) return res.status(401).json({message: "Invalid credentials"});
       
     const token = jwt.sign(
-  { id: user.user_id, role: 'user', first_name: user.first_name, last_name: user.last_name },
-  "secret",
+  { id: user.user_id, role: 'user', first_name: user.first_name, last_name: user.last_name, email: user.email, phone_number: user.phone_number },
+  process.env.JWT_SECRET || "secret",
   { expiresIn: '24h' }
 );
       return res.json({token, role: 'user', message: "Login successful"});
@@ -73,8 +73,8 @@ exports.login = async (req, res) => {
       if (!isMatch) return res.status(401).json({message: "Invalid credentials"});
       
    const token = jwt.sign(
-  { id: user.user_id, role: 'user', first_name: user.first_name, last_name: user.last_name },
-  "secret",
+  { role: 'admin', username: admin.username },
+  process.env.JWT_SECRET || "secret",
   { expiresIn: '24h' }
 );
       return res.json({token, role: 'admin', message: "Admin login successful"});

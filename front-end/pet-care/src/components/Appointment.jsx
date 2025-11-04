@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Appointment.css";
 import { addPet } from "../api/petApi";
+import { createAppointment } from "../api/appointmentApi";
 
 export default function Appointment({ closeModal }) {
   const [step, setStep] = useState(1);
@@ -33,7 +34,9 @@ export default function Appointment({ closeModal }) {
         const payload = JSON.parse(atob(token.split('.')[1]));
         const firstName = payload.first_name || '';
         const lastName = payload.last_name || '';
-        setFormData(prev => ({ ...prev, firstName, lastName }));
+        const email = payload.email || '';
+        const phone = payload.phone_number || '';
+        setFormData(prev => ({ ...prev, firstName, lastName, email, phone }));
       } catch (err) {
         console.error('Error decoding token:', err);
       }
@@ -84,18 +87,13 @@ export default function Appointment({ closeModal }) {
           finalPetId = petResponse.pet?.pet_id;
         }
 
-        const appointmentPayload = {
-          ...formData,
-          petId: finalPetId,
-        };
-
-        const res = await fetch("/api/appointments", {
-          method: "POST", 
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(appointmentPayload),
+        await createAppointment({
+          pet_id: finalPetId,
+          date: formData.date,
+          time: formData.time,
+          service: formData.service,
+          notes: formData.notes,
         });
-
-        if (!res.ok) throw new Error("Failed to save appointment");
         alert("✅ Appointment booked successfully!");
         closeModal();
       } catch (err) {
