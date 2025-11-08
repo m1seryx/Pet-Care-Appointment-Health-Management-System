@@ -81,3 +81,15 @@ export function logoutUser() {
   localStorage.removeItem('user');
   localStorage.removeItem('role');
 }
+
+// Google OAuth - Get auth URL
+export async function getGoogleAuthUrl() {
+  try {
+    const response = await fetch(`${BASE_URL}/auth/google`);
+    const data = await response.json();
+    return data.authUrl;
+  } catch (error) {
+    console.error('Google auth URL error:', error);
+    throw error;
+  }
+}

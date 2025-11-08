@@ -9,6 +9,20 @@ const User = {
   findByUsername: (username, callback) =>{
   const sql = "SELECT * FROM user WHERE username = ?";
   db.query(sql, [username], callback);
-}
+},
+  
+  findByEmail: (email, callback) => {
+    const sql = "SELECT * FROM user WHERE email = ?";
+    db.query(sql, [email], callback);
+  },
+  
+  createGoogleUser: (first_name, last_name, email, google_id, callback) => {
+    // Generate username from email
+    const username = email.split('@')[0] + '_' + Date.now().toString().slice(-6);
+    // Create user without password (Google OAuth users don't need password)
+    const sql = "INSERT INTO user (first_name, last_name, username, email, password, phone_number, google_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    db.query(sql, [first_name, last_name, username, email, null, null, google_id], callback);
+  }
+
 };
 module.exports = User;

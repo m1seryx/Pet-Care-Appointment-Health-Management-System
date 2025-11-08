@@ -8,6 +8,7 @@ import Appointment from './components/Appointment';
 import UserDashboard from './components/UserDashboard';
 import AdminHome from './components/AdminDashboard'
 import Profile from './components/profile';
+import AuthCallback from './components/AuthCallback';
 
 
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/UserDashboard" element={<UserDashboard />} />
         <Route path="/Admin" element={<AdminHome />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
 
       </Routes>
 
