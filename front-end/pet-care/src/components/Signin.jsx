@@ -49,11 +49,18 @@ export default function Signin() {
 
   const handleGoogleSignup = async () => {
     try {
+      console.log('Initiating Google signup...');
       const authUrl = await getGoogleAuthUrl();
+      console.log('Redirecting to:', authUrl);
+      
+      if (!authUrl || !authUrl.startsWith('https://')) {
+        throw new Error('Invalid authentication URL received');
+      }
+      
       window.location.href = authUrl;
     } catch (error) {
-      alert("Google sign-up failed. Please try again.");
-      console.error(error);
+      console.error('Google signup error:', error);
+      alert(`Google sign-up failed: ${error.message || 'Please check your console for details and try again.'}`);
     }
   };
 

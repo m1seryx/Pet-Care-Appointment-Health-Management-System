@@ -9,6 +9,15 @@ export default function AuthCallback() {
   useEffect(() => {
     const token = searchParams.get('token');
     const role = searchParams.get('role');
+    const error = searchParams.get('error');
+
+    // Handle error from OAuth callback
+    if (error) {
+      alert(`Authentication error: ${error}`);
+      logoutUser();
+      navigate('/login');
+      return;
+    }
 
     if (token) {
       // Store token and role in localStorage
@@ -38,7 +47,7 @@ export default function AuthCallback() {
         navigate('/UserDashboard');
       }
     } else {
-      // No token - redirect to login
+      // No token and no error - redirect to login
       alert('Authentication failed. Please try again.');
       logoutUser();
       navigate('/login');

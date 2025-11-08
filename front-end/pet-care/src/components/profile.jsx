@@ -4,8 +4,10 @@ import './profile.css';
 import profile from '../assets/dp.png';
 import notify from '../assets/notif.png';
 import { User, Heart, Calendar, FileText, Mail, Edit2, PlusCircle } from 'lucide-react';
+import { getUser } from '../api/authApi'; 
 
 function UserDashboard() {
+  const user = getUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState('pending');
@@ -98,11 +100,11 @@ function UserDashboard() {
             <div className="profile-header">
               <div className="profile-avatar" style={{ backgroundImage: `url(${profile})` }} ></div>
               <div className="profile-info">
-                <h2>Kristine Sabuero</h2>
-                <p className="user-id">ID: 0123456</p>
+                <h2>{user?.first_name} {user?.last_name}</h2>
+                <p className="user-id">ID: {user?.id}</p>
                 <p className="user-email">
                   <Mail size={16} />
-                  kristine@email.com
+                  {user?.email}
                 </p>
               </div>
               <button className="btn-edit">

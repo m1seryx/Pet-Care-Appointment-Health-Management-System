@@ -39,11 +39,18 @@ const handleSubmit = async (e) => {
 
   const handleGoogleLogin = async () => {
     try {
+      console.log('Initiating Google login...');
       const authUrl = await getGoogleAuthUrl();
+      console.log('Redirecting to:', authUrl);
+      
+      if (!authUrl || !authUrl.startsWith('https://')) {
+        throw new Error('Invalid authentication URL received');
+      }
+      
       window.location.href = authUrl;
     } catch (error) {
-      alert("Google sign-in failed. Please try again.");
-      console.error(error);
+      console.error('Google login error:', error);
+      alert(`Google sign-in failed: ${error.message || 'Please check your console for details and try again.'}`);
     }
   };
 
