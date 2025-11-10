@@ -5,13 +5,20 @@ import profile from '../assets/dp.png';
 import notify from '../assets/notif.png';
 import { User, Heart, Calendar, FileText, Mail, Edit2, PlusCircle } from 'lucide-react';
 import { getUser } from '../api/authApi'; 
+import {getUserPets} from '../api/petApi'
+import UserPet from './userPet';
+
 
 function UserDashboard() {
+  
+  
   const user = getUser();
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState('pending');
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 100);
@@ -118,42 +125,8 @@ function UserDashboard() {
             <Heart size={20} />
             Registered Pets
           </div>
-          <div className="pets-grid">
-            <div className="pet-card">
-              <div className="pet-card-header">
-                <div className="pet-info">
-                  <h3>Dochi Sabuero</h3>
-                  <div className="pet-details">
-                    <div><strong>Age:</strong> 3 years old</div>
-                    <div><strong>Species:</strong>Cat</div>
-                    <div><strong>Breed:</strong>Tilapia Cat</div>
-                    <div><strong>Gender:</strong>Female</div>
-                  </div>
-                </div>
-                <span className="pet-badge">Active</span>
-              </div>
-            </div>
-            <div className="pet-card">
-              <div className="pet-card-header">
-                <div className="pet-info">
-                  <h3>PunPun Sabuero</h3>
-                  <div className="pet-details">
-                    <div><strong>Age:</strong> 1 year old</div>
-                    <div><strong>Species:</strong>Cat</div>
-                    <div><strong>Breed:</strong>Tilapia Cat</div>
-                    <div><strong>Gender:</strong>Female</div>
-                  </div>
-                </div>
-                <span className="pet-badge">Active</span>
-              </div>
-            </div>
-            <div className="pet-card" style={{ background: 'linear-gradient(135deg, #667eea20 0%, #764ba220 100%)', border: '2px dashed #667eea', cursor: 'pointer' }}>
-              <div style={{ textAlign: 'center', padding: '20px', color: '#667eea' }}>
-                <PlusCircle size={48} style={{ marginBottom: '10px' }} />
-                <h3 style={{ color: '#667eea' }}>Add New Pet</h3>
-              </div>
-            </div>
-          </div>
+
+          <UserPet />
 
           <div className="section-title">
             <Calendar size={20} />

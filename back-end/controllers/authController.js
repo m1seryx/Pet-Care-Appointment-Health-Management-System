@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
     
       const user = userResults[0];
       
-      // Check if user has a password (Google OAuth users don't have passwords)
+      
       if (!user.password) {
         return res.status(401).json({message: "This account was created with Google. Please use Google sign-in."});
       }
@@ -67,7 +67,18 @@ exports.login = async (req, res) => {
   process.env.JWT_SECRET || "secret",
   { expiresIn: '24h' }
 );
-      return res.json({token, role: 'user', message: "Login successful"});
+      return res.json({
+  token, 
+  role: 'user', 
+  message: "Login successful",
+  user: {
+    id: user.user_id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    phone_number: user.phone_number
+  }
+});
     }
     
     
@@ -84,12 +95,19 @@ exports.login = async (req, res) => {
   process.env.JWT_SECRET || "secret",
   { expiresIn: '24h' }
 );
-      return res.json({token, role: 'admin', message: "Admin login successful"});
+      return res.json({
+  token, 
+  role: 'admin', 
+  message: "Admin login successful",
+  admin: {
+    username: admin.username
+  }
+});
     });
   });
 };
 
-// Google OAuth - Initiate login
+
 exports.googleAuth = (req, res) => {
   try {
     const clientId = process.env.GOOGLE_CLIENT_ID;
@@ -105,18 +123,18 @@ exports.googleAuth = (req, res) => {
 };
 
 
-// Helper function to redirect to frontend with error
+
 const redirectWithError = (res, errorMessage) => {
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
   res.redirect(`${frontendUrl}/auth/callback?error=${encodeURIComponent(errorMessage)}`);
 };
 
-// Google OAuth - Handle callback
+
 exports.googleCallback = async (req, res) => {
   const { code, error } = req.query;
   const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
 
-  // Handle Google OAuth errors
+
   if (error) {
     console.error('Google OAuth error:', error);
     const errorMessage = error === 'access_denied' 
@@ -125,20 +143,20 @@ exports.googleCallback = async (req, res) => {
     return redirectWithError(res, errorMessage);
   }
 
-  // Check for authorization code
+
   if (!code) {
     console.error('No authorization code provided');
     return redirectWithError(res, 'Authorization code not provided');
   }
 
-  // Validate environment variables
+
   if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     console.error('Google OAuth credentials not configured');
     return redirectWithError(res, 'Google OAuth not configured. Please contact administrator.');
   }
 
   try {
-    // Exchange code for tokens
+
     const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', 
       new URLSearchParams({
         code,
@@ -161,7 +179,7 @@ exports.googleCallback = async (req, res) => {
       return redirectWithError(res, 'Failed to get access token from Google');
     }
 
-    // Get user info from Google
+
     const userInfoResponse = await axios.get('https://www.googleapis.com/oauth2/v2/userinfo', {
       headers: {
         Authorization: `Bearer ${tokens.access_token}`,
@@ -175,7 +193,7 @@ exports.googleCallback = async (req, res) => {
       return redirectWithError(res, 'Failed to get email from Google account');
     }
 
-    // Check if user exists
+ 
     User.findByEmail(googleUser.email, (err, results) => {
       if (err) {
         console.error('Database error finding user:', err);
@@ -183,7 +201,7 @@ exports.googleCallback = async (req, res) => {
       }
 
       if (results.length > 0) {
-        // User exists - login
+    
         const user = results[0];
         try {
           const token = jwt.sign(
@@ -199,14 +217,14 @@ exports.googleCallback = async (req, res) => {
             { expiresIn: '24h' }
           );
 
-          // Redirect to frontend with token
+   
           res.redirect(`${frontendUrl}/auth/callback?token=${token}&role=user`);
         } catch (jwtError) {
           console.error('JWT signing error:', jwtError);
           return redirectWithError(res, 'Failed to create authentication token');
         }
       } else {
-        // User doesn't exist - create new user
+      
         const nameParts = googleUser.name ? googleUser.name.split(' ') : ['User', ''];
         const first_name = nameParts[0] || googleUser.given_name || 'User';
         const last_name = nameParts.slice(1).join(' ') || googleUser.family_name || '';
@@ -219,9 +237,9 @@ exports.googleCallback = async (req, res) => {
           (err, result) => {
             if (err) {
               console.error('Error creating Google user:', err);
-              // Check if it's a duplicate email error
+         
               if (err.code === 'ER_DUP_ENTRY') {
-                // User might have been created between check and create, try to find again
+              
                 User.findByEmail(googleUser.email, (findErr, findResults) => {
                   if (findErr || !findResults || findResults.length === 0) {
                     return redirectWithError(res, 'Failed to create account. Please try again.');
@@ -261,7 +279,7 @@ exports.googleCallback = async (req, res) => {
                 { expiresIn: '24h' }
               );
 
-              // Redirect to frontend with token
+      
               res.redirect(`${frontendUrl}/auth/callback?token=${token}&role=user`);
             } catch (jwtError) {
               console.error('JWT signing error:', jwtError);
@@ -274,20 +292,19 @@ exports.googleCallback = async (req, res) => {
   } catch (error) {
     console.error('Google OAuth error:', error);
     
-    // Handle axios errors specifically
+
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
+ 
+  
       console.error('Error response data:', error.response.data);
       console.error('Error response status:', error.response.status);
       const errorMessage = error.response.data?.error || error.response.data?.error_description || 'Unknown error';
       return redirectWithError(res, `Authentication failed: ${errorMessage}`);
     } else if (error.request) {
-      // The request was made but no response was received
       console.error('No response received:', error.request);
       return redirectWithError(res, 'No response from Google. Please check your internet connection.');
     } else {
-      // Something happened in setting up the request that triggered an Error
+    
       console.error('Error setting up request:', error.message);
       return redirectWithError(res, `Authentication failed: ${error.message || 'Unknown error'}`);
     }

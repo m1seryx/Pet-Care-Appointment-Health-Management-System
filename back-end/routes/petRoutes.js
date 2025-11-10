@@ -5,5 +5,6 @@ const petController = require('../controllers/petController');
 
 
 router.post("/add", middleware.verifyToken, petController.PetCreate)
+router.get('/user', middleware.verifyToken, petController.getUserPets);
 
 module.exports = router;

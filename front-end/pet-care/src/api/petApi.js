@@ -26,3 +26,26 @@ export async function addPet(petData) {
     return { success: false, message: 'Server error during registration' };
   }
 }
+
+export async function getUserPets() {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${BASE_URL}/user`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      return { success: false, pets: [] };
+    }
+
+    return { success: true, pets: data.pets };
+  } catch (error) {
+    console.error('Fetch pets error:', error);
+    return { success: false, pets: [] };
+  }
+}

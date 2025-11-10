@@ -22,3 +22,19 @@ exports.PetCreate = (req, res) => {
     });
   });
 };
+
+exports.getUserPets = (req, res) => {
+  const user_id = req.user.id;
+
+  Pet.getByUser(user_id, (err, results) => {
+    if (err) {
+      console.error("Error fetching pets:", err);
+      return res.status(500).json({ message: "Failed to fetch pets", error: err });
+    }
+
+    res.status(200).json({
+      success: true,
+      pets: results
+    });
+  });
+};

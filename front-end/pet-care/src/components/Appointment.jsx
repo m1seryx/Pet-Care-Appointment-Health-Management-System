@@ -127,9 +127,9 @@ export default function Appointment({ closeModal }) {
           </p>
         </div>
 
-        {/* Form */}
+    
         <form className="form-panel" onSubmit={handleSubmit}>
-          {/* Step 1: Pet Info */}
+     
           {step === 1 && (
             <>
               <h3>Pet Information:</h3>
