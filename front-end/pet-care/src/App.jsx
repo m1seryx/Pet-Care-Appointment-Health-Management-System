@@ -7,6 +7,7 @@ import Signin from './components/Signin';
 import Appointment from './components/Appointment';
 import UserDashboard from './components/UserDashboard';
 import AdminHome from './components/AdminDashboard'
+import AdminAppointmentPage from "./components/AdminAppointmentPage"; 
 import Profile from './components/profile';
 import AuthCallback from './components/AuthCallback';
 
@@ -24,7 +25,7 @@ function App() {
         <Route path="/Admin" element={<AdminHome />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
-
+        <Route path="/admin/appointments" element={<AdminAppointmentPage />} /> 
       </Routes>
 
   );

@@ -11,58 +11,85 @@ import Appointment from './Appointment';
 function UserDashboard() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Animate hero text
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 100);
+    const timer = setTimeout(() => setIsVisible(true), 100);
     return () => clearTimeout(timer);
   }, []);
 
-  
+  // Handle modal open/close by hash
+  useEffect(() => {
+    if (location.hash === '#appointment') {
+      setShowModal(true);
+    } else {
+      setShowModal(false);
+    }
+  }, [location.hash]);
+
   const openAppointment = () => {
-    navigate("#appointment"); 
+    if (location.hash !== '#appointment') {
+      navigate('#appointment');
+    }
     setShowModal(true);
   };
 
   const closeAppointment = () => {
-    navigate("#home"); // revert breadcrumb / hash
+    navigate('#home');
     setShowModal(false);
   };
 
-  // Optional: automatically open modal if URL already has #appointment
-  useEffect(() => {
-    if (location.hash === "#appointment") {
-      setShowModal(true);
-    }
-  }, [location]);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   const services = [
     {
-      icon: "📅",
-      title: "Appointment Scheduling",
-      description: "Easy online booking system for all your pet's healthcare needs with real-time availability"
+      icon: '🐶',
+      title: 'General Check-up',
+      description:
+        'Regular wellness exams to ensure your pet’s overall health, detect early signs of illness, and maintain their well-being.',
     },
     {
-      icon: "🩺",
-      title: "Health and Vaccination Record",
-      description: "Complete digital health records and vaccination tracking for comprehensive pet care"
+      icon: '💉',
+      title: 'Vaccination',
+      description:
+        'Comprehensive vaccination programs to protect your pets from common and preventable diseases.',
     },
     {
-      icon: "🔔",
-      title: "Reminder System",
-      description: "Never miss important appointments or medication schedules with smart notifications"
-    }
+      icon: '✂️',
+      title: 'Grooming',
+      description:
+        'Professional grooming services to keep your pet clean, comfortable, and looking their best.',
+    },
+    {
+      icon: '🦷',
+      title: 'Dental Cleaning',
+      description:
+        'Thorough dental care and cleaning to prevent plaque buildup, gum disease, and bad breath in your pets.',
+    },
+    {
+      icon: '🚑',
+      title: 'Emergency Visit',
+      description:
+        'Immediate care for urgent medical conditions because your pet’s health can’t wait.',
+    },
   ];
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  // Auto carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % services.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="app">
-      {/* Decorative Background Elements */}
+      {/* Decorative elements */}
       <div className="decorative-elements">
         <div className="bubble bubble-1"></div>
         <div className="bubble bubble-2"></div>
@@ -79,16 +106,28 @@ function UserDashboard() {
           <nav className="desktop-nav">
             <a href="#home" className="nav-link">Home</a>
             <a href="#services" className="nav-link">Services</a>
-            <a href="#appointment" className="nav-link" onClick={(e) => { e.preventDefault(); openAppointment(); }}>Appointment</a>
+            <a
+              href="#appointment"
+              className="nav-link"
+              onClick={(e) => {
+                e.preventDefault();
+                openAppointment();
+              }}
+            >
+              Appointment
+            </a>
             <a href="#about" className="nav-link">About</a>
           </nav>
 
-          <div className='profile'>
-            <div className='notify'>
-              <div className='notif' style={{ backgroundImage: `url(${notify})` }}></div>
+          <div className="profile">
+            <div className="notify">
+              <div
+                className="notif"
+                style={{ backgroundImage: `url(${notify})` }}
+              ></div>
             </div>
             <div
-              className='prof'
+              className="prof"
               onClick={() => navigate('/profile')}
               style={{ backgroundImage: `url(${profile})` }}
             ></div>
@@ -109,14 +148,13 @@ function UserDashboard() {
         )}
       </header>
 
-      {/* HERO SECTION */}
+      {/* HERO */}
       <section id="home" className="hero" style={{ backgroundImage: `url(${heroBg})` }}>
         <div className="hero-overlay"></div>
         <div className="hero-content">
           <div className="hero-text">
             <h1 className={`hero-title ${isVisible ? 'animate-in' : ''}`}>
-              Smart Scheduling,{' '}
-              <span className="text-blue">Healthier Pets</span>,{' '}
+              Smart Scheduling, <span className="text-blue">Healthier Pets</span>,{' '}
               <span className="text-purple">Happier Owners</span>.
             </h1>
             <p className={`hero-subtitle ${isVisible ? 'animate-in delay-1' : ''}`}>
@@ -145,14 +183,19 @@ function UserDashboard() {
             </p>
           </div>
 
-          <div className="services-grid">
-            {services.map((service, index) => (
-              <div key={index} className="service-card">
-                <div className="service-icon"><span>{service.icon}</span></div>
-                <h3 className="service-title">{service.title}</h3>
-                <p className="service-description">{service.description}</p>
-              </div>
-            ))}
+          <div className="services-carousel">
+            <div
+              className="services-track"
+              style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+            >
+              {services.map((service, index) => (
+                <div key={index} className="service-card">
+                  <div className="service-icon"><span>{service.icon}</span></div>
+                  <h3 className="service-title">{service.title}</h3>
+                  <p className="service-description">{service.description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -198,7 +241,7 @@ function UserDashboard() {
       </section>
 
       {/* ABOUT SECTION */}
-      <section id='about' className='about'>
+      <section id="about" className="about">
         <div className="about-content">
           <div className="about-header">
             <h2 className="about-title">
