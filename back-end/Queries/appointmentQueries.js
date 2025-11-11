@@ -7,10 +7,12 @@ const Appointment = {
   },
   getByUser: (user_id, callback) => {
     
-    const sql = `SELECT a.*, u.first_name, u.last_name 
-                 FROM appointment a 
-                 JOIN user u ON a.user_id = u.user_id 
-                 WHERE a.user_id = ?`;
+    const sql = ` SELECT a.*, u.first_name, u.last_name, p.pet_name
+    FROM appointment a
+    JOIN user u ON a.user_id = u.user_id
+    JOIN pet p ON a.pet_id = p.pet_id
+    WHERE a.user_id = ?
+  `;
     db.query(sql, [user_id], callback);
   },
   getAll: (callback) => {

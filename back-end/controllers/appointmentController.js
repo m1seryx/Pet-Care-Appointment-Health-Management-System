@@ -31,3 +31,19 @@ exports.AppointmentCreate = (req, res) => {
     });
   });
 };
+
+exports.AppointmentGetByUser = (req, res) => {
+  const user_id = req.user.id;
+
+  Appointment.getByUser(user_id, (err, result) => {
+    if (err) {
+      console.error('Appointment display error:', err);
+      return res.status(500).json({ message: "Error fetching user appointment", error: err });
+    }
+
+    res.status(200).json({
+      message: "Appointment fetched successfully",
+      appointments: result, 
+    });
+  });
+};

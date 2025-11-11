@@ -6,7 +6,8 @@ import notify from '../assets/notif.png';
 import { User, Heart, Calendar, FileText, Mail, Edit2, PlusCircle } from 'lucide-react';
 import { getUser } from '../api/authApi'; 
 import {getUserPets} from '../api/petApi'
-import UserPet from './userPet';
+import UserPet from './UserPet';
+import AppointmentSection from './UserAppointment';
 
 
 function UserDashboard() {
@@ -128,56 +129,7 @@ function UserDashboard() {
 
           <UserPet />
 
-          <div className="section-title">
-            <Calendar size={20} />
-            Appointment
-          </div>
-          <div className="tabs">
-            <button 
-              className={`tab ${activeTab === 'pending' ? 'active' : ''}`}
-              onClick={() => handleTabClick('pending')}
-            >
-              Pending
-            </button>
-            <button 
-              className={`tab ${activeTab === 'booked' ? 'active' : ''}`}
-              onClick={() => handleTabClick('booked')}
-            >
-              Booked
-            </button>
-            <button 
-              className={`tab ${activeTab === 'canceled' ? 'active' : ''}`}
-              onClick={() => handleTabClick('canceled')}
-            >
-              Canceled
-            </button>
-          </div>
-          <div className="appointments-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Name of Pet</th>
-                  <th>Date & Appointment Time</th>
-                  <th>Service Type</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Dochi</td>
-                  <td>Nov 5, 2025 - 10:00 AM</td>
-                  <td>Vaccination</td>
-                  <td><span className="status-badge status-pending">Pending</span></td>
-                </tr>
-                <tr>
-                  <td>Luna</td>
-                  <td>Nov 8, 2025 - 2:30 PM</td>
-                  <td>Grooming</td>
-                  <td><span className="status-badge status-pending">Pending</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <AppointmentSection/>
         </div>
       </div>
     </div>
