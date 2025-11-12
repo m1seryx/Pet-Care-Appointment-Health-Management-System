@@ -23,6 +23,11 @@ const Appointment = {
                  JOIN pet p ON a.pet_id = p.pet_id 
                  ORDER BY a.date_time DESC`;
     db.query(sql, callback);
+  },
+
+  acceptAppointment: (appointment_id, callback) => {
+    const sql = `UPDATE appointment SET status = "Accepted" WHERE appointment_id = ?`;
+    db.query(sql, [appointment_id], callback)
   }
 };
 module.exports = Appointment;

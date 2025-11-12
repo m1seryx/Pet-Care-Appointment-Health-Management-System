@@ -29,13 +29,13 @@ export async function createAppointment({ pet_id, date, time, service, notes }) 
 }
 
 
-export async function getUserAppointment(user_id) {
+export async function getUserAppointment() {
   const token = localStorage.getItem('token');
   const headers = { 'Content-Type': 'application/json' };
   if (token) headers.Authorization = `Bearer ${token}`;
 
   try {
-    const response = await fetch(`${BASE_URL}/userAppointment?user_id=${user_id}`, {
+    const response = await fetch(`${BASE_URL}/userAppointment`, {
       method: 'GET',
       headers,
     });
@@ -54,8 +54,10 @@ export async function getUserAppointment(user_id) {
 }
 
 
-export async function getAllAppointment() {
+export async function AppointmentGetAll() {
+   const token = localStorage.getItem('token');
   const headers = { 'Content-Type': 'application/json' };
+  if (token) headers.Authorization = `Bearer ${token}`;
 
   try {
     const response = await fetch(`${BASE_URL}/allAppointment`, {
@@ -63,7 +65,7 @@ export async function getAllAppointment() {
       headers,
     });
 
-    const data = await response.json().catch(() => ({}));
+    const data = await response.json();
 
     if (!response.ok) {
       return { success: false, appointments: [], message: data.message || 'Failed to fetch all appointments' };
@@ -73,5 +75,33 @@ export async function getAllAppointment() {
   } catch (error) {
     console.error('Fetch all appointments error:', error);
     return { success: false, appointments: [], message: 'Something went wrong while fetching all appointments' };
+  }
+}
+
+
+export async function HandleAccept(appointment_id) {
+  const token = localStorage.getItem('token');
+  const headers = { 
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  };
+
+  try {
+   
+    const response = await fetch(`${BASE_URL}/acceptAppointment`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ appointment_id })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.text();
+      throw new Error(errorData || 'Failed to accept appointment');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Accept appointment error:', error);
+    throw error;
   }
 }

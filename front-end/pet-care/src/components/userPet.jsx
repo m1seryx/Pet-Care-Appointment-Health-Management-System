@@ -21,7 +21,7 @@ function UserPet() {
           <div className="pet-card" key={pet.pet_id}>
             <div className="pet-card-header">
               <div className="pet-info">
-                <h3>{pet.pet_name}</h3>
+                <h3>{pet.pet_name}</h3>``
                 <div className="pet-details">
                   <div><strong>Age:</strong> {pet.age} years old</div>
                   <div><strong>Breed:</strong> {pet.breed}</div>
@@ -39,7 +39,7 @@ function UserPet() {
         <p>No pets yet 🐾</p>
       )}
 
-      {/* Add New Pet Card */}
+
       <div
         className="pet-card"
         style={{

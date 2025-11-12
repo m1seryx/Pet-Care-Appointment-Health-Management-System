@@ -1,43 +1,57 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaClock, FaCheckCircle, FaTimesCircle, FaCalendarCheck, FaArrowLeft, FaSearch } from "react-icons/fa";
-import Sidebar from "./Sidebar";   // optional - keep if you have it
-import Header from "./Header";     // optional - keep if you have it
+import Sidebar from "./Sidebar"; 
+import Header from "./Header";    
 import "./AdminAppointmentPage.css";
+import { AppointmentGetAll } from "../api/appointmentApi";
+import {HandleAccept} from "../api/appointmentApi"
+
 
 export default function AdminAppointmentPage() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("Pending");
-  // initial sample data (stateful)
-  const [appointments, setAppointments] = useState([
-    { id: 1, owner: "Kristine Sabureo", pet: "Buddy", service: "General Check-up", date: "2025-10-20", time: "09:00 AM", status: "Pending" },
-    { id: 2, owner: "John Dela Cruz",    pet: "Max",   service: "Vaccination",       date: "2025-10-21", time: "10:30 AM", status: "Accepted" },
-    { id: 3, owner: "Maria Lopez",       pet: "Bella", service: "Grooming",          date: "2025-10-22", time: "03:30 PM", status: "Completed" },
-    { id: 4, owner: "Kyle Ramirez",      pet: "Charlie", service: "Dental Cleaning", date: "2025-10-23", time: "11:00 AM", status: "Cancelled" },
-    { id: 5, owner: "Ella Santos",       pet: "Luna",  service: "Emergency Visit",   date: "2025-10-24", time: "Anytime (24/7 available)", status: "Pending" },
-  ]);
+  const [loading, setLoading] = useState(true);
+  const [appointments, setAppointments] = useState([]);
+  const [error, setError] = useState(null);
+  const [isAccepting, setIsAccepting] = useState(false);
 
+useEffect(() => {
+  async function fetchAllAppointments() {
+    try {
+      const { success, appointments, message } = await AppointmentGetAll();
+      if (success) {
+      
+        const formattedAppointments = appointments.map(appt => ({
+          id: appt.appointment_id,
+          owner: `${appt.first_name} ${appt.last_name}`,
+          pet: appt.pet_name,
+          service: appt.service,
+          date: new Date(appt.date_time).toLocaleDateString(),
+          time: new Date(appt.date_time).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),
+          status: appt.status
+        }));
+        setAppointments(formattedAppointments);
+      } else {
+        console.error('Failed to fetch appointments:', message);
+        setError(message || 'Failed to load appointments');
+      }
+    } catch (error) {
+      console.error('Error fetching appointments:', error);
+      setError('An error occurred while loading appointments');
+    } finally {
+      setLoading(false);
+    }
+  }
+  fetchAllAppointments();
+}, [])
   const [search, setSearch] = useState("");
 
-  // Service -> available times
-  const getAvailableTimes = (service) => {
-    switch (service) {
-      case "General Check-up":
-        return ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM"];
-      case "Vaccination":
-        return ["09:30 AM", "10:30 AM", "01:00 PM", "02:30 PM"];
-      case "Grooming":
-        return ["10:00 AM", "11:30 AM", "01:30 PM", "03:30 PM"];
-      case "Dental Cleaning":
-        return ["09:00 AM", "11:00 AM", "02:00 PM"];
-      case "Emergency Visit":
-        return ["Anytime (24/7 available)"];
-      default:
-        return [];
-    }
-  };
+const getAvailableTimes = (service) => {
+ 
+  return ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00']; // Example times
+};
 
-  // filter by active tab and search
   const filtered = useMemo(() => {
     return appointments.filter(a => {
       const tabMatch = a.status === activeTab;
@@ -47,7 +61,7 @@ export default function AdminAppointmentPage() {
     });
   }, [appointments, activeTab, search]);
 
-  // Handlers to mutate appointment state
+
   const updateStatus = (id, newStatus) => {
     setAppointments(prev => prev.map(a => a.id === id ? { ...a, status: newStatus } : a));
   };
@@ -56,9 +70,26 @@ export default function AdminAppointmentPage() {
     setAppointments(prev => prev.map(a => a.id === id ? { ...a, time: newTime } : a));
   };
 
-  const handleAccept = (id) => {
-    updateStatus(id, "Accepted");
-  };
+ const handleAccept = async (id) => {
+  setError(null);
+  setIsAccepting(true);
+  try {
+    const { success, message } = await HandleAccept(id);
+    if (success) {
+      updateStatus(id, "Accepted");
+ 
+    } else {
+      setError(message || 'Failed to accept appointment');
+  
+    }
+  } catch (error) {
+    console.error('Error accepting appointment:', error);
+    setError('An error occurred while accepting the appointment');
+  
+  } finally {
+    setIsAccepting(false);
+  }
+};
   const handleDecline = (id) => {
     if (!confirm("Are you sure you want to cancel this appointment?")) return;
     updateStatus(id, "Cancelled");
@@ -69,7 +100,7 @@ export default function AdminAppointmentPage() {
 
   return (
     <div className="grid-container-admin">
-      {/* Optional Sidebar/Header — remove if you don't have these */}
+  
       {typeof Sidebar !== "undefined" && <Sidebar />}
       {typeof Header !== "undefined" && <Header />}
 
@@ -104,8 +135,13 @@ export default function AdminAppointmentPage() {
             </div>
           </div>
 
-          <div className="appointment-table">
-            <table>
+          {loading ? (
+            <div className="loading-message">Loading appointments...</div>
+          ) : error ? (
+            <div className="error-message">{error}</div>
+          ) : (
+            <div className="appointment-table">
+              <table>
               <thead>
                 <tr>
                   <th>Owner</th>
@@ -138,7 +174,13 @@ export default function AdminAppointmentPage() {
                       <td className="actions-td">
                         {item.status === "Pending" && (
                           <>
-                            <button className="accept-btn" onClick={() => handleAccept(item.id)}>Accept</button>
+                            <button 
+                                className="accept-btn" 
+                                onClick={() => handleAccept(item.id)}
+                                disabled={isAccepting}
+                              >
+                                {isAccepting ? 'Accepting...' : 'Accept'}
+                              </button>
                             <button className="decline-btn" onClick={() => handleDecline(item.id)}>Decline</button>
                           </>
                         )}
@@ -159,8 +201,9 @@ export default function AdminAppointmentPage() {
                   </tr>
                 )}
               </tbody>
-            </table>
-          </div>
+              </table>
+            </div>
+          )}
         </div>
       </main>
     </div>

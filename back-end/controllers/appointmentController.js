@@ -47,3 +47,40 @@ exports.AppointmentGetByUser = (req, res) => {
     });
   });
 };
+
+exports.AppointmentGetAll =  (req, res) => {
+  
+  Appointment.getAll ((err, result) =>{
+    if (err) {
+      console.error('Appointment display error: ', err);
+      return res.status(500).json({message: "Error fetching appointment", error: err});
+    }
+
+    res.status(200).json({
+      message: "Appointment fetch successfully",
+      appointments: result,
+    });
+  });
+};
+
+ exports.AcceptAppointment = (req, res) => {
+ const appointment_id = req.body.appointment_id;
+ 
+ Appointment.acceptAppointment(appointment_id, (err, result) =>{
+  if (err) {
+    console.error('Accepting appointment error:', err);
+    return res.status(500).json({  
+      success: false, 
+      message: "Error accepting appointment", 
+      error: err 
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: "Appointment accepted successfully",
+    appointment: result, 
+  });
+});
+ 
+ }

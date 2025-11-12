@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import { BsHeartFill, BsCalendar, BsBarChart, BsFillGearFill, BsCreditCard, BsSpeedometer, BsJournalMedical
  } from 'react-icons/bs';
 
@@ -17,34 +18,34 @@ function Sidebar() {
       </div>
       <ul className= 'sidebar-list'>
         <li className= 'sidebar-list-item'>
-            <a href="">
+            <Link to="/Admin">
                 <BsSpeedometer className='icon'/> Dashboard
-                </a>
+                </Link>
         </li>
         <li className= 'sidebar-list-item'>
-            <a href="">
+            <Link to="#">
                 <BsJournalMedical className='icon'/> Pet Records
-                </a>
+                </Link>
         </li>
         <li className= 'sidebar-list-item'>
-            <a href="">
+            <Link to="/admin/appointments">
                 <BsCalendar className='icon'/> Appointments
-                </a>
+                </Link>
         </li>
         <li className= 'sidebar-list-item'>
-            <a href="">
+            <Link to="#">
                 <BsBarChart className='icon'/> Analytics
-                </a>
+                </Link>
         </li>
         <li className= 'sidebar-list-item'>
-            <a href="">
+            <Link to="#">
                 <BsCreditCard className='icon'/> Billing
-                </a>
+                </Link>
         </li>
         <li className='sidebar-list-item'>
-                <a href="">
+                <Link to="#">
                     <BsFillGearFill className='icon'/> Setting
-                </a>
+                </Link>
             </li>
       </ul>
 
