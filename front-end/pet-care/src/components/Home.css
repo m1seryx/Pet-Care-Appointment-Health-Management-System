@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Aoboshi+One&family=Antic+Slab&family=Montagu+Slab:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 
 * {
@@ -93,7 +93,7 @@ body {
   font-size: 1.6rem;
   font-weight: 800;
   color: #1f2937;
-  font-family: 'Montagu Slab', serif;
+  font-family: 'Poppins', sans-serif;
   letter-spacing: -0.025em;
 }
 
@@ -187,7 +187,7 @@ body {
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s ease;
-  font-family: 'Aoboshi One', serif;
+  font-family: 'Poppins', sans-serif;
 }
 .hero-title.animate-in { opacity: 1; transform: translateY(0); }
 
@@ -196,7 +196,8 @@ body {
   background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: 'Montagu Slab';
+  background-clip: text;
+  font-family: 'Poppins', sans-serif;
 }
 
 .hero-subtitle {
@@ -205,7 +206,7 @@ body {
   margin-bottom: 2.5rem;
   font-weight: 300;
   line-height: 1.7;
-  font-family: 'Antic Slab';
+  font-family: 'Poppins', sans-serif;
 }
 .hero-subtitle.animate-in.delay-1 {
   opacity: 1;
